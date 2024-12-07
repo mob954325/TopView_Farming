@@ -9,8 +9,14 @@ public class Inventory
     List<Inventory_Slot> slots;
 
     private int maxSlotCount = 10;
+
+    public Inventory(int slotCount = 10)
+    {
+        maxSlotCount = slotCount;
+        Init();
+    }
     
-    public void Init()
+    private void Init()
     {
         slots = new List<Inventory_Slot>(maxSlotCount);
     }
