@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbaff7163dfc83d47a01cd6940e9d876, type: 3}
   m_Name: Item_00_TestItem
   m_EditorClassIdentifier: 
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 6c8d36f9a3f5c4a4e936cac54451fcfd, type: 3}
+  prefab: {fileID: 272594221290734003, guid: 0ba312ca60fc0cb4391d1d82d1d44a76, type: 3}
   objName: Unknown_ItemName
+  maxCount: 1
   price: 1
