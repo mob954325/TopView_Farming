@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +11,9 @@ public class Test_01_Inventory : TestBase
     public ItemDataSO data;
 
     public int index = 0;
+
+    [Range(1, 3)]
+    public int count = 1;
 
     private void Start()
     {
@@ -24,7 +28,17 @@ public class Test_01_Inventory : TestBase
 
     protected override void OnTest2(InputAction.CallbackContext context)
     {
-        inven.DiscardItem(index);
+        List<GameObject> objs = inven.DiscardItem(index, count);
+
+        if (objs != null)
+        {
+            foreach (var obj in objs)
+            {
+                GameObject curObj = Instantiate(obj);
+                curObj.transform.position = spawnPos.position;
+
+            }
+        }
     }
 }
 #endif

@@ -19,6 +19,12 @@ public class Inventory
     private void Init()
     {
         slots = new List<Inventory_Slot>(maxSlotCount);
+
+        for(int i = 0; i < maxSlotCount; i++)
+        {
+            Inventory_Slot InventorySlot = new Inventory_Slot();
+            slots.Add(InventorySlot);
+        }
     }
 
     /// <summary>
@@ -30,16 +36,31 @@ public class Inventory
     {
         bool result = false;
 
-        int remainIndex = FindRemainSlotIndex();
-        if (remainIndex == -1)
+        if (FindRemainSlotIndex() > maxSlotCount)
         {
             // 인벤토리 자리가 없음
             result = false;
         }
         else
         {
-            // 아이템 추가
-            slots[remainIndex].AddItem(Item);
+            // 남는 슬롯 찾기
+            foreach(var slot in slots)
+            {
+                ItemDataSO data = slot.Data;
+
+                if(data == Item && slot.Count < data.maxCount)
+                {
+                    // 같은 아이템이고 자리가 남아있으면
+                    slot.AddItem(data);
+                    break;
+                } 
+                else if(data == null)
+                {                
+                    // 해당 위치의 슬롯의 아이템이 없으면 추가
+                    slot.AddItem(Item);
+                    break;
+                }
+            }
         }
 
         return result;
@@ -54,9 +75,13 @@ public class Inventory
     public List<GameObject> DiscardItem(int slotIndex, int count = 1)
     {
         ItemDataSO data = slots[slotIndex].Data;
-        List<GameObject> result = new List<GameObject>(data.maxCount);
 
-        // 예외 처리
+        // 아이템이 존재하지 않음
+        if(data == null)
+        {
+            return null;
+        }
+
         // 인덱스 범위가 벗어남
         if (slotIndex < 0 || slotIndex > maxSlotCount)
         {
@@ -69,21 +94,34 @@ public class Inventory
             return null;
         }
 
+        List<GameObject> result = new List<GameObject>(data.maxCount);
+
         for(int i = 0; i < count; i++)
         {
-            result.Add(slots[slotIndex].DiscardItem());            
+            // 아이템 개수만큼 찾기
+            GameObject itemObj = slots[slotIndex].DiscardItem();
+
+            if(itemObj != null)
+            {
+                result.Add(itemObj);            
+            }
+            else
+            {
+                // 아이템 소지 개수보다 더 많은 개수면 break;
+                break;
+            }
         }
 
         return result;
     }
 
     /// <summary>
-    /// 슬롯 중 데이터가 없는 슬롯 인덱스를 찾는 함수 (슬롯이 없으면 -1을 반환)
+    /// 슬롯 중 데이터가 없는 슬롯 인덱스를 찾는 함수
     /// </summary>
     /// <returns>슬롯 인덱스</returns>
     private int FindRemainSlotIndex()
     {
-        int result = -1;
+        int result = 0;
 
         int curIndex = 0;
         foreach(Inventory_Slot slot in slots)
@@ -91,6 +129,7 @@ public class Inventory
             if(slot.Data == null)
             {
                 result = curIndex;
+                break;
             }
 
             curIndex++;

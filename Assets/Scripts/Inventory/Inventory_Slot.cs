@@ -8,7 +8,26 @@ public class Inventory_Slot
     private int maxCount = 0;
 
     private int count = 0;
-    public int Count { get => count; private set => count = value; }
+    public int Count 
+    { 
+        get => count;
+        private set
+        {
+            count = value;
+
+            if(count <= 0)  // 아이템이 완전히 없어지면
+            {
+                Data = null; // 데이터 제거
+            }
+        }
+    }
+
+    public Inventory_Slot()
+    {
+        Data = null;
+        count = 0;
+        maxCount = 0;
+    }
 
     public bool AddItem(ItemDataSO itemData)
     {
@@ -54,7 +73,7 @@ public class Inventory_Slot
         else
         {
             result = Data.prefab;
-            count--;
+            Count--;
         }
 
 
