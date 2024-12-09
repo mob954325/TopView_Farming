@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour, IMoveable
         characterController = GetComponent<CharacterController>();
     }
 
-    public void OnMove(Vector2 moveDir)
+    public void OnMove(Vector3 moveDir)
     {
         //Vector3 dirVec = new Vector3(moveDir.x, 0, moveDir.y);
         characterController.Move(Time.deltaTime * speed * moveDir.y * transform.forward);

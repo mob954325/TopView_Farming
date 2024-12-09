@@ -10,5 +10,5 @@ public interface IMoveable
     /// </summary>
     /// <param name="moveDir">움직이는 방향</param>
     /// <returns>움직이려는 위치</returns>
-    public void OnMove(Vector2 moveDir);
+    public void OnMove(Vector3 moveDir);
 }
