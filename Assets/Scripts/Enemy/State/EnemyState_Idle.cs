@@ -15,6 +15,11 @@ public class EnemyState_Idle : StateBase
     {
         bool isStop = Enemy.Controller.CheckIsStop();
 
+        if(Enemy.CheckPlayerInAttackArea())
+        {
+            Enemy.State = EnemyState.Attack;
+        }
+
         if (timer < maxTimer)
         {
             timer += Time.deltaTime;

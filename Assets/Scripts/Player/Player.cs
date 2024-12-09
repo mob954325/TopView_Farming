@@ -1,22 +1,28 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerController), typeof(PlayerInput))]
-public class Player : MonoBehaviour, IHealth
+public class Player : MonoBehaviour, IHealth, ICombatable
 {
     PlayerController controller;
     PlayerInput input;
 
-    private float health = 0;
+    public float health = 0;
     private float maxHealth = 10;
+    private bool isImmunite = false;
 
     public float Health 
     { 
         get => health;
         set
         {
-            health = Mathf.Clamp(value, 0, maxHealth);
+            health = Mathf.Clamp(value, 0, MaxHealth);
 
+            isImmunite = true;
+            StartCoroutine(HitProcess());
+
+            Debug.Log($"플레이어 체력 : {health}");
             if ( health <= 0 )
             {
                 // 플레이어 사망
@@ -28,6 +34,16 @@ public class Player : MonoBehaviour, IHealth
     public float MaxHealth { get => maxHealth; set => maxHealth = value; }
     public Action OnHit { get; set; }
     public Action OnDead { get; set; }
+
+    private float attackRatePerSec = 1f;
+    private float attackPower = 1f;
+    private float defencePower = 1f;
+
+    public float AttackRatePerSec { get => attackRatePerSec; set => attackRatePerSec = value; }
+    public float AttackPower { get => attackPower; set => attackPower = value; }
+    public float DefencePower { get => defencePower; set => defencePower = value; }
+    public Action onAttack { get; set; }
+    public Action onDefence { get; set; }
 
     private void Awake()
     {
@@ -46,6 +62,7 @@ public class Player : MonoBehaviour, IHealth
         controller.OnMove(input.MoveVec);
     }
 
+    // IHealth ===============================================================
     public void Dead()
     {
         OnDead?.Invoke();
@@ -53,7 +70,35 @@ public class Player : MonoBehaviour, IHealth
 
     public void Hit(float damage)
     {
-        Health -= damage;
-        OnHit?.Invoke();
+        if(!isImmunite)
+        {
+            Health -= damage;
+            OnHit?.Invoke();
+        }
+    }
+    
+    private IEnumerator HitProcess()
+    {
+        float timeElapsed = 0.0f;
+
+        while(timeElapsed < 0.5f)
+        {
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        isImmunite = false;
+    }
+
+    // ICombatable ===============================================================
+    public void Attack(IHealth target)
+    {
+        target.Hit(AttackPower);
+        onAttack?.Invoke();
+    }
+
+    public void Defence()
+    {
+        onDefence?.Invoke();
     }
 }
