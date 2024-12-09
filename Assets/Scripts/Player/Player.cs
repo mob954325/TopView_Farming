@@ -8,6 +8,8 @@ public class Player : MonoBehaviour, IHealth, ICombatable
     PlayerController controller;
     PlayerInput input;
 
+    Material material_Body;
+
     public float health = 0;
     private float maxHealth = 10;
     private bool isImmunite = false;
@@ -49,6 +51,7 @@ public class Player : MonoBehaviour, IHealth, ICombatable
     {
         controller = GetComponent<PlayerController>();
         input = GetComponent<PlayerInput>();
+        material_Body = transform.GetChild(1).GetComponent<MeshRenderer>().material;
     }
 
     private void OnEnable()
@@ -79,11 +82,20 @@ public class Player : MonoBehaviour, IHealth, ICombatable
     
     private IEnumerator HitProcess()
     {
+        material_Body.color = Color.red;
+
         float timeElapsed = 0.0f;
+        float maxTime = 0.5f;
+        float timeRatio = 1f / maxTime;
 
         while(timeElapsed < 0.5f)
         {
             timeElapsed += Time.deltaTime;
+            material_Body.color = new Color
+                (1f, 
+                timeElapsed * timeRatio, 
+                timeElapsed * timeRatio);
+
             yield return null;
         }
 
