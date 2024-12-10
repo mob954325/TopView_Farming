@@ -15,8 +15,10 @@ public class Player : MonoBehaviour, IHealth, ICombatable
 
     private Material material_Body;
     private WeaponSlot weaponSlot;
+    private Inventory inventory;
+    public Inventory Inventory { get => inventory; }
 
-    public float health = 0;
+    private float health = 0;
     private float maxHealth = 10;
     private bool isImmunite = false;
 
@@ -63,6 +65,11 @@ public class Player : MonoBehaviour, IHealth, ICombatable
         MaxHealth = 10;
         Health = MaxHealth;
         isImmunite = false;
+    }
+
+    private void Start()
+    {
+        inventory = new Inventory();
     }
 
     private void Update()

@@ -31,9 +31,11 @@ public class EnemyBase : MonoBehaviour, IHealth, ICombatable
     /// </summary>
     public EnemyController Controller { get => controller; }
 
-    [SerializeField] private List<StateBase> states;
+    public EnemyDataSO data;
+
+    private List<StateBase> states;
     private StateBase currentState;
-    [SerializeField] private EnemyState state;
+    private EnemyState state;
 
     public EnemyState State
     {
@@ -80,6 +82,8 @@ public class EnemyBase : MonoBehaviour, IHealth, ICombatable
     public Action onAttack { get; set; }
     public Action onDefence { get; set; }
 
+    public List<ItemDataSO> dropItems;
+
     // Unity ===================================================
     private void Awake()
     {
@@ -98,6 +102,8 @@ public class EnemyBase : MonoBehaviour, IHealth, ICombatable
 
         MaxHealth = maxHealth;
         Health = MaxHealth;
+
+        SetDropItem();
     }
 
     protected virtual void Start()
@@ -136,6 +142,47 @@ public class EnemyBase : MonoBehaviour, IHealth, ICombatable
     public void Defence()
     {
         // 방어
+    }
+
+    // 아이템 ==========================================================
+
+    /// <summary>
+    /// 적이 생성할 드랍템 추가
+    /// </summary>
+    private void SetDropItem()
+    {
+        int count = data.dataTable.Count;
+        dropItems = new List<ItemDataSO>(count);
+
+        for(int i = 0; i < count; i++)
+        {
+            float rand = UnityEngine.Random.Range(0f, 1f);
+            if(rand <= data.dataTable[i].dropRate)
+            {
+                dropItems.Add(data.dataTable[i].itemData);
+            }
+        }
+    }
+
+    public ItemDataSO GetItem(int index)
+    {
+        ItemDataSO itemData = null;
+
+        if(dropItems.Count > 0 && index < dropItems.Count)
+        {
+            itemData = dropItems[index];
+
+            if (itemData != null)
+            {
+                dropItems.RemoveAt(index);
+            }
+        }
+        else
+        {
+            itemData = null;
+        }        
+
+        return itemData;
     }
 
     // 기타 ============================================================
