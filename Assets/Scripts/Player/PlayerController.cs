@@ -18,7 +18,6 @@ public class PlayerController : MonoBehaviour, IMoveable
 
     public void OnMove(Vector3 moveDir)
     {
-        //Vector3 dirVec = new Vector3(moveDir.x, 0, moveDir.y);
         characterController.Move(Time.deltaTime * speed * moveDir.y * transform.forward);
 
         Vector3 rotVec = Vector3.Lerp(transform.eulerAngles, transform.eulerAngles + rotatePower * moveDir.x * Vector3.up, Time.deltaTime);

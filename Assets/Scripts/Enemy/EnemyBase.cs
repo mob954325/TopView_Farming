@@ -48,7 +48,7 @@ public class EnemyBase : MonoBehaviour, IHealth, ICombatable
         }
     }
 
-    private float health = 0;
+    [SerializeField] private float health = 0;
     private float maxHealth = 3;
 
     public float Health

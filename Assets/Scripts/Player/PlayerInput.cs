@@ -14,6 +14,11 @@ public class PlayerInput : MonoBehaviour
     /// </summary>
     public Action OnInteract;
 
+    /// <summary>
+    /// 공격 키를 누를 때 실행되는 델리게이트
+    /// </summary>
+    public Action OnAttack;
+
     private void Awake()
     {
         actions = new InputSystem_Actions();
@@ -26,15 +31,22 @@ public class PlayerInput : MonoBehaviour
         actions.Player.Move.canceled += OnMoveInput;
         actions.Player.Look.performed += OnLookInput;
         actions.Player.Interact.performed += OnInteractInput;
+        actions.Player.Attack.performed += OnAttackInput;
     }
 
     private void OnDisable()
     {
+        actions.Player.Attack.performed -= OnAttackInput;
         actions.Player.Interact.performed -= OnInteractInput;
         actions.Player.Look.performed -= OnLookInput;
         actions.Player.Move.canceled -= OnMoveInput;
         actions.Player.Move.performed -= OnMoveInput;
         actions.Enable();
+    }
+
+    private void OnAttackInput(InputAction.CallbackContext context)
+    {
+        OnAttack?.Invoke();
     }
 
     private void OnInteractInput(InputAction.CallbackContext context)

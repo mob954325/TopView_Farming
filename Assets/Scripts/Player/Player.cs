@@ -5,10 +5,16 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerController), typeof(PlayerInput))]
 public class Player : MonoBehaviour, IHealth, ICombatable
 {
-    PlayerController controller;
-    PlayerInput input;
+    private PlayerController controller;
+    private PlayerInput input;
 
-    Material material_Body;
+    /// <summary>
+    /// 플레이어 인풋 접근용 프로퍼티
+    /// </summary>
+    public PlayerInput Input { get => input; }
+
+    private Material material_Body;
+    private WeaponSlot weaponSlot;
 
     public float health = 0;
     private float maxHealth = 10;
@@ -52,6 +58,7 @@ public class Player : MonoBehaviour, IHealth, ICombatable
         controller = GetComponent<PlayerController>();
         input = GetComponent<PlayerInput>();
         material_Body = transform.GetChild(1).GetComponent<MeshRenderer>().material;
+        weaponSlot = FindAnyObjectByType<WeaponSlot>();
     }
 
     private void OnEnable()
@@ -82,6 +89,7 @@ public class Player : MonoBehaviour, IHealth, ICombatable
     
     private IEnumerator HitProcess()
     {
+        // 피격 이펙트 (머터리얼이 빨강으로 변하고 천천히 원래 색으로 돌아옴)
         material_Body.color = Color.red;
 
         float timeElapsed = 0.0f;
@@ -103,14 +111,22 @@ public class Player : MonoBehaviour, IHealth, ICombatable
     }
 
     // ICombatable ===============================================================
+
     public void Attack(IHealth target)
     {
-        target.Hit(AttackPower);
+        target.Hit(AttackPower + weaponSlot.WeaponDamage);
         onAttack?.Invoke();
     }
 
     public void Defence()
     {
         onDefence?.Invoke();
+    }
+
+    // 기타 ======================================================================
+
+    public void EquipWeapon(ItemDataSO_Equipable data)
+    {
+        weaponSlot.AddWeapon(data);
     }
 }

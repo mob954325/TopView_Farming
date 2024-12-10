@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7472036491987726340}
   m_Layer: 0
   m_Name: Zombie
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -159,8 +159,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.4, y: 0.4, z: 0.2}
-  m_Center: {x: 0, y: 0.4, z: 0.35}
+  m_Size: {x: 0.4, y: 0.4, z: 0.54}
+  m_Center: {x: 0, y: 0.4, z: 0.5}
 --- !u!114 &1782034721366775854
 MonoBehaviour:
   m_ObjectHideFlags: 0
