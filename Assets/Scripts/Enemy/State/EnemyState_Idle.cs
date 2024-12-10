@@ -8,6 +8,7 @@ public class EnemyState_Idle : StateBase
     public override void OnEnterState()
     {
         // speed;
+        Enemy.Controller.SetStop(false);
         Enemy.Controller.Speed = 0.8f;
     }
 
@@ -19,27 +20,28 @@ public class EnemyState_Idle : StateBase
         {
             Enemy.State = EnemyState.Attack;
         }
-
-        if (timer < maxTimer)
-        {
-            timer += Time.deltaTime;
-        }
         else
         {
-            // 타이머 초기화
-            maxTimer = Random.Range(1.5f, 4f);
-            timer = 0f;
-            Enemy.Controller.SetStop(false);
-        }
+            if (timer < maxTimer)
+            {
+                timer += Time.deltaTime;
+            }
+            else
+            {
+                // 타이머 초기화
+                maxTimer = Random.Range(1.5f, 4f);
+                timer = 0f;
+                Enemy.Controller.SetStop(false);
+            }
 
-        if (isStop)
-        {
-            // 다음 이동 위치 선정
-            Vector3 nextVec = SetRandomNextDestination();
-            Enemy.Controller.SetDestination(nextVec);
-            Enemy.Controller.SetStop(true);
-        }
-        
+            if (isStop)
+            {
+                // 다음 이동 위치 선정
+                Vector3 nextVec = SetRandomNextDestination();
+                Enemy.Controller.SetDestination(nextVec);
+                Enemy.Controller.SetStop(true);
+            }
+        }        
     }
 
     public override void OnExitState()

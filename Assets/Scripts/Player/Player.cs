@@ -25,10 +25,7 @@ public class Player : MonoBehaviour, IHealth, ICombatable
         get => health;
         set
         {
-            health = Mathf.Clamp(value, 0, MaxHealth);
-
-            isImmunite = true;
-            StartCoroutine(HitProcess());
+            health = Mathf.Clamp(value, 0, MaxHealth);            
 
             Debug.Log($"플레이어 체력 : {health}");
             if ( health <= 0 )
@@ -65,6 +62,7 @@ public class Player : MonoBehaviour, IHealth, ICombatable
     {
         MaxHealth = 10;
         Health = MaxHealth;
+        isImmunite = false;
     }
 
     private void Update()
@@ -83,20 +81,22 @@ public class Player : MonoBehaviour, IHealth, ICombatable
         if(!isImmunite)
         {
             Health -= damage;
+            StartCoroutine(HitProcess());
             OnHit?.Invoke();
         }
     }
     
     private IEnumerator HitProcess()
     {
+        isImmunite = true;
+
         // 피격 이펙트 (머터리얼이 빨강으로 변하고 천천히 원래 색으로 돌아옴)
         material_Body.color = Color.red;
 
         float timeElapsed = 0.0f;
         float maxTime = 0.5f;
         float timeRatio = 1f / maxTime;
-
-        while(timeElapsed < 0.5f)
+        while (timeElapsed < 0.5f)
         {
             timeElapsed += Time.deltaTime;
             material_Body.color = new Color

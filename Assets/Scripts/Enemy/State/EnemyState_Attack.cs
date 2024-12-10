@@ -48,6 +48,7 @@ public class EnemyState_Attack : StateBase
             }
         }
     }
+
     private IEnumerator AttackDelay()
     {
         float timeElapsed = 0.0f;
@@ -69,5 +70,6 @@ public class EnemyState_Attack : StateBase
         // stopMoving
         Enemy.Controller.Speed = 0f;
         isAttack = false;
+        attackArea.SetColliderActive(false);
     }
 }
