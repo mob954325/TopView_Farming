@@ -17,9 +17,7 @@ public class EnemyController : MonoBehaviour, IMoveable
             navAgent.speed = value;
         }
     }
-
-
-    private void Awake()
+    public void Init()
     {
         navAgent = GetComponent<NavMeshAgent>();
     }

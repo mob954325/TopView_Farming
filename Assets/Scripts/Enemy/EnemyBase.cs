@@ -16,7 +16,7 @@ public enum EnemyState
 }
 
 [RequireComponent(typeof(EnemyController))]
-public class EnemyBase : MonoBehaviour, IHealth, ICombatable
+public class EnemyBase : Product, IHealth, ICombatable
 {
     private Player target;
     /// <summary>
@@ -87,28 +87,34 @@ public class EnemyBase : MonoBehaviour, IHealth, ICombatable
     // Unity ===================================================
     private void Awake()
     {
+        // controller 초기화
         controller = GetComponent<EnemyController>();
+        controller.Init();
 
+        target = FindAnyObjectByType<Player>();
+
+        // 상태 스크립트 초기화
         int stateCount = Enum.GetValues(typeof(EnemyState)).Length;
         states = new List<StateBase>(stateCount);
+
         Transform child = transform.GetChild(0);
         states = child.GetComponents<StateBase>().ToList();
+
+        for(int i = 0; i < states.Count; i++)
+        {
+            states[i].Init();
+        }
     }
 
     private void OnEnable()
     {
-        target = FindAnyObjectByType<Player>();
         State = EnemyState.BeforeInitialize;
 
         MaxHealth = maxHealth;
         Health = MaxHealth;
 
         SetDropItem();
-    }
-
-    protected virtual void Start()
-    {
-        State = EnemyState.Idle;
+        State = EnemyState.Idle;        
     }
 
     private void Update()

@@ -3,17 +3,10 @@ using UnityEngine;
 
 public abstract class StateBase : MonoBehaviour
 {
-    private EnemyBase enemy;
-
     /// <summary>
-    /// EnemyBase 접근 프로퍼티
+    /// 초기화 함수
     /// </summary>
-    protected EnemyBase Enemy { get => enemy; }        
-
-    private void Awake()
-    {
-        enemy = GetComponentInParent<EnemyBase>();
-    }
+    public abstract void Init();
 
     /// <summary>
     /// 상태 진입 시 한 번 실행되는 함수

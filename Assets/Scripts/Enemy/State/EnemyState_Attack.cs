@@ -4,39 +4,41 @@ using UnityEngine;
 public class EnemyState_Attack : StateBase
 {
     private EnemyAttackArea attackArea;
+    protected EnemyBase enemy;
 
     private bool isAttack = false;
 
-    private void Start()
-    {        
+    public override void Init()
+    {
+        enemy = GetComponentInParent<EnemyBase>();
         attackArea = transform.parent.GetChild(2).GetComponent<EnemyAttackArea>();
     }
 
+
     public override void OnEnterState()
     {
-        // speed;
         isAttack = false;
-        Enemy.Controller.Speed = 1.2f;
-        Enemy.Controller.SetStop(false);
-        Enemy.Controller.SetDestination(Enemy.Target.transform.position);
+        enemy.Controller.Speed = 1.2f;
+        enemy.Controller.SetStop(false);
+        enemy.Controller.SetDestination(enemy.Target.transform.position);
     }
 
     public override void OnExcuting()
     {
         // 위치 설정 (플레이어)
-        Enemy.Controller.SetDestination(Enemy.Target.transform.position);
+        enemy.Controller.SetDestination(enemy.Target.transform.position);
 
-        bool isStop = Enemy.Controller.CheckIsStop();
-        Vector3 lookAtVec = Vector3.Lerp(transform.forward, Enemy.Target.gameObject.transform.position, Time.deltaTime);
+        bool isStop = enemy.Controller.CheckIsStop();
+        Vector3 lookAtVec = Vector3.Lerp(transform.forward, enemy.Target.gameObject.transform.position, Time.deltaTime);
         transform.LookAt(lookAtVec);
 
-        if (!Enemy.CheckPlayerInAttackArea())
+        if (!enemy.CheckPlayerInAttackArea())
         {
-            Enemy.State = EnemyState.Idle;
+            enemy.State = EnemyState.Idle;
         }
         else
         {
-            if (Enemy.CheckPlayerInSight())
+            if (enemy.CheckPlayerInSight())
             {
                 if (!isAttack && isStop)
                 {
@@ -55,7 +57,7 @@ public class EnemyState_Attack : StateBase
 
         attackArea.SetColliderActive(true);
 
-        while (timeElapsed < Enemy.AttackRatePerSec)
+        while (timeElapsed < enemy.AttackRatePerSec)
         {
             timeElapsed += Time.deltaTime;
             yield return null;
@@ -68,7 +70,7 @@ public class EnemyState_Attack : StateBase
     public override void OnExitState()
     {
         // stopMoving
-        Enemy.Controller.Speed = 0f;
+        enemy.Controller.Speed = 0f;
         isAttack = false;
         attackArea.SetColliderActive(false);
     }

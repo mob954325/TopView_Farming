@@ -3,10 +3,17 @@ using UnityEngine;
 
 public class EnemyState_Dead : StateBase
 {
+    protected EnemyBase enemy;
+
+    public override void Init()
+    {
+        enemy = GetComponentInParent<EnemyBase>();
+    }
+
     public override void OnEnterState()
     {
-        Enemy.Controller.Speed = 0f;
-        Enemy.Controller.SetStop(true);
+        enemy.Controller.Speed = 0f;
+        enemy.Controller.SetStop(true);
     }
 
     public override void OnExcuting()

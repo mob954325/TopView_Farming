@@ -2,23 +2,29 @@ using UnityEngine;
 
 public class EnemyState_Idle : StateBase
 {
+    protected EnemyBase enemy;
+
     public float timer = 0;
     public float maxTimer = 1f;
 
+    public override void Init()
+    {
+        enemy = GetComponentInParent<EnemyBase>();
+    }
+
     public override void OnEnterState()
     {
-        // speed;
-        Enemy.Controller.SetStop(false);
-        Enemy.Controller.Speed = 0.8f;
+        enemy.Controller.SetStop(false);
+        enemy.Controller.Speed = 0.8f;
     }
 
     public override void OnExcuting()
     {
-        bool isStop = Enemy.Controller.CheckIsStop();
+        bool isStop = enemy.Controller.CheckIsStop();
 
-        if(Enemy.CheckPlayerInAttackArea())
+        if(enemy.CheckPlayerInAttackArea())
         {
-            Enemy.State = EnemyState.Attack;
+            enemy.State = EnemyState.Attack;
         }
         else
         {
@@ -31,15 +37,15 @@ public class EnemyState_Idle : StateBase
                 // 타이머 초기화
                 maxTimer = Random.Range(1.5f, 4f);
                 timer = 0f;
-                Enemy.Controller.SetStop(false);
+                enemy.Controller.SetStop(false);
             }
 
             if (isStop)
             {
                 // 다음 이동 위치 선정
                 Vector3 nextVec = SetRandomNextDestination();
-                Enemy.Controller.SetDestination(nextVec);
-                Enemy.Controller.SetStop(true);
+                enemy.Controller.SetDestination(nextVec);
+                enemy.Controller.SetStop(true);
             }
         }        
     }
@@ -47,9 +53,9 @@ public class EnemyState_Idle : StateBase
     public override void OnExitState()
     {
         // endLookAround
-        Enemy.Controller.Speed = 0f;
+        enemy.Controller.Speed = 0f;
         timer = 0f;
-        Enemy.Controller.SetStop(true);
+        enemy.Controller.SetStop(true);
     }
 
     private Vector3 SetRandomNextDestination()
