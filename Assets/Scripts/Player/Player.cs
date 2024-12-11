@@ -15,6 +15,8 @@ public class Player : MonoBehaviour, IHealth, ICombatable
 
     private Material material_Body;
     private WeaponSlot weaponSlot;
+    private ItemDataSO_Equipable weaponData;
+
     private Inventory inventory;
     public Inventory Inventory { get => inventory; }
 
@@ -135,5 +137,12 @@ public class Player : MonoBehaviour, IHealth, ICombatable
     public void EquipWeapon(ItemDataSO_Equipable data)
     {
         weaponSlot.AddWeapon(data);
+        weaponData = data;
+    }
+
+    public void UnEquipWeapon()
+    {
+        weaponData = null;
+        weaponSlot.RemoveWeapon();
     }
 }

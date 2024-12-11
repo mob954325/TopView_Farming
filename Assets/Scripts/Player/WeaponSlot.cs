@@ -20,7 +20,14 @@ public class WeaponSlot : MonoBehaviour
 
     public void RemoveWeapon()
     {
-        Destroy(weaponObj);
-        weaponDamage = 0f;
+        if (weaponObj != null)
+        {
+            Destroy(weaponObj);
+            weaponDamage = 0f;
+        }
+        else
+        {
+            // 장착된 무기가 없습니다.
+        }
     }
 }
