@@ -6,7 +6,12 @@ public class Inventory
     /// <summary>
     /// 슬롯 리스트
     /// </summary>
-    List<Inventory_Slot> slots;
+    private List<Inventory_Slot> slots;
+
+    /// <summary>
+    /// 인벤토리 슬롯 접근용 프로퍼티
+    /// </summary>
+    public List<Inventory_Slot> Slots { get => slots; }
 
     private int maxSlotCount = 10;
 
@@ -72,7 +77,7 @@ public class Inventory
     /// <param name="slotIndex">제거할 슬롯 인덱스</param>
     /// <param name="count">제거할 개수</param>
     /// <returns>제거된 아이템 오브젝트 리스트</returns>
-    public List<GameObject> DiscardItem(int slotIndex, int count = 1)
+    public List<ItemDataSO> RemoveItems(int slotIndex, int count = 1)
     {
         ItemDataSO data = slots[slotIndex].Data;
 
@@ -94,12 +99,12 @@ public class Inventory
             return null;
         }
 
-        List<GameObject> result = new List<GameObject>(data.maxCount);
+        List<ItemDataSO> result = new List<ItemDataSO>(data.maxCount);
 
         for(int i = 0; i < count; i++)
         {
             // 아이템 개수만큼 찾기
-            GameObject itemObj = slots[slotIndex].DiscardItem();
+            ItemDataSO itemObj = slots[slotIndex].DiscardItem();
 
             if(itemObj != null)
             {

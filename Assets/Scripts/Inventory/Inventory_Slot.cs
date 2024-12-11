@@ -61,9 +61,9 @@ public class Inventory_Slot
         return result;
     }
 
-    public GameObject DiscardItem()
+    public ItemDataSO DiscardItem()
     {
-        GameObject result = null;
+        ItemDataSO result = null;
 
         if(Count <= 0)
         {
@@ -72,7 +72,7 @@ public class Inventory_Slot
         }
         else
         {
-            result = Data.prefab;
+            result = Data;
             Count--;
         }
 

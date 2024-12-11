@@ -28,15 +28,14 @@ public class Test_01_Inventory : TestBase
 
     protected override void OnTest2(InputAction.CallbackContext context)
     {
-        List<GameObject> objs = inven.DiscardItem(index, count);
+        List<ItemDataSO> items = inven.RemoveItems(index, count);
 
-        if (objs != null)
+        if (items != null)
         {
-            foreach (var obj in objs)
+            foreach (var item in items)
             {
-                GameObject curObj = Instantiate(obj);
+                GameObject curObj = Instantiate(item.prefab);
                 curObj.transform.position = spawnPos.position;
-
             }
         }
     }
