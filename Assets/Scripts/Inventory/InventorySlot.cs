@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Inventory_Slot
+public class InventorySlot
 {
     private ItemDataSO data;
     public ItemDataSO Data { get => data; private set => data = value; }
@@ -22,11 +22,16 @@ public class Inventory_Slot
         }
     }
 
-    public Inventory_Slot()
+    private int slotIndex = 0;
+    public int SlotIndex { get => slotIndex;  }
+
+
+    public InventorySlot(int index)
     {
         Data = null;
         count = 0;
         maxCount = 0;
+        slotIndex = index;
     }
 
     public bool AddItem(ItemDataSO itemData)

@@ -11,7 +11,7 @@ public class ItemBox : Product
 
     public void Init()
     {
-        inventory = new Inventory(capacity);
+        inventory = new Inventory(null, capacity); // ...
     }
 
     public void AddItems(List<ItemDataSO> datas)
@@ -38,7 +38,7 @@ public class ItemBox : Product
     {
         bool result = true;
 
-        foreach(Inventory_Slot slot in inventory.Slots)
+        foreach(InventorySlot slot in inventory.Slots)
         {
             if(slot.Data != null)
             {

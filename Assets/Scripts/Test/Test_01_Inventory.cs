@@ -17,7 +17,7 @@ public class Test_01_Inventory : TestBase
 
     private void Start()
     {
-        inven = new Inventory();
+        inven = new Inventory(null);
         spawnPos = transform.GetChild(0);
     }
 

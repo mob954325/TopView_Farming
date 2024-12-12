@@ -3,31 +3,36 @@ using UnityEngine;
 
 public class Inventory
 {
+    private InventoryUI inventoryUI;
+
     /// <summary>
     /// 슬롯 리스트
     /// </summary>
-    private List<Inventory_Slot> slots;
+    private List<InventorySlot> slots;
 
     /// <summary>
     /// 인벤토리 슬롯 접근용 프로퍼티
     /// </summary>
-    public List<Inventory_Slot> Slots { get => slots; }
+    public List<InventorySlot> Slots { get => slots; }
 
     private int maxSlotCount = 10;
 
-    public Inventory(int slotCount = 10)
+    public Inventory(InventoryUI ui, int slotCount = 10)
     {
         maxSlotCount = slotCount;
-        Init();
+        inventoryUI = ui;
+
+        Init(); 
+        inventoryUI.Init(this);
     }
     
     private void Init()
     {
-        slots = new List<Inventory_Slot>(maxSlotCount);
+        slots = new List<InventorySlot>(maxSlotCount);
 
         for(int i = 0; i < maxSlotCount; i++)
         {
-            Inventory_Slot InventorySlot = new Inventory_Slot();
+            InventorySlot InventorySlot = new InventorySlot(i);
             slots.Add(InventorySlot);
         }
     }
@@ -57,12 +62,14 @@ public class Inventory
                 {
                     // 같은 아이템이고 자리가 남아있으면
                     slot.AddItem(data);
+                    inventoryUI[slot.SlotIndex].SetContent(slot);
                     break;
                 } 
                 else if(data == null)
                 {                
                     // 해당 위치의 슬롯의 아이템이 없으면 추가
                     slot.AddItem(Item);
+                    inventoryUI[slot.SlotIndex].SetContent(slot);
                     break;
                 }
             }
@@ -117,6 +124,8 @@ public class Inventory
             }
         }
 
+        inventoryUI[slotIndex].SetContent(slots[slotIndex]); // 다 버리고 UI 수정
+
         return result;
     }
 
@@ -129,7 +138,7 @@ public class Inventory
         int result = 0;
 
         int curIndex = 0;
-        foreach(Inventory_Slot slot in slots)
+        foreach(InventorySlot slot in slots)
         {
             if(slot.Data == null)
             {

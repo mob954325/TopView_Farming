@@ -20,6 +20,8 @@ public class Player : MonoBehaviour, IHealth, ICombatable
     private Inventory inventory;
     public Inventory Inventory { get => inventory; }
 
+    public InventoryUI inventoryUI;
+
     private float health = 0;
     private float maxHealth = 10;
     private bool isImmunite = false;
@@ -71,7 +73,7 @@ public class Player : MonoBehaviour, IHealth, ICombatable
 
     private void Start()
     {
-        inventory = new Inventory();
+        inventory = new Inventory(inventoryUI);
     }
 
     private void Update()
