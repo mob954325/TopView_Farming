@@ -7,8 +7,16 @@ public class InventoryUI : MonoBehaviour
     private CanvasGroup canvas;
 
     private Inventory inventory;
+
+    /// <summary>
+    /// 인벤토리 접근용 프로퍼티
+    /// </summary>
+    public Inventory Inventory { get => inventory; }
+
     private InventoryContentUI inventoryContent;
     private List<InventorySlotUI> inventorySlots;
+
+    private ContextMenuUI additionalMenu;
 
     private int slotCount = -1;
 
@@ -19,8 +27,9 @@ public class InventoryUI : MonoBehaviour
 
     private void Awake()
     {
-        inventoryContent = GetComponentInChildren<InventoryContentUI>();
+        additionalMenu = FindAnyObjectByType<ContextMenuUI>();
         canvas = GetComponent<CanvasGroup>();
+        inventoryContent = GetComponentInChildren<InventoryContentUI>();
     }
 
     public void Init(Inventory inven) 
@@ -29,6 +38,8 @@ public class InventoryUI : MonoBehaviour
 
         slotCount = inventory.Slots.Count;
         inventorySlots = new List<InventorySlotUI>(slotCount);   
+
+        additionalMenu.Init(AdditionalButtonType.Inventory); // 적이나 상자는 ??
 
         for (int i = 0; i < slotCount; i++)
         {
@@ -40,10 +51,18 @@ public class InventoryUI : MonoBehaviour
 
             obj.name = $"slot_{i}";
             comp.Init(inventory.Slots[i]);
+
+            comp.OnRightClick += (pointerPosition) => 
+            {
+                float height = additionalMenu.GetComponent<RectTransform>().rect.height;
+                int index = comp.Slot.SlotIndex;
+                additionalMenu.OnActive(inventory, index, pointerPosition + Vector2.down * height);
+            };
             inventorySlots.Add(comp);
         }
 
         inventoryContent.SetHeight(slotCount);
+        SetDeActive();
     }
 
     public void SetActive()

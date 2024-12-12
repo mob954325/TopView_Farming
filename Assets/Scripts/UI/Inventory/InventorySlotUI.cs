@@ -1,15 +1,25 @@
+using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InventorySlotUI : MonoBehaviour
+public class InventorySlotUI : MonoBehaviour, IPointerClickHandler
 {
     private Image icon;
     private TextMeshProUGUI itemNameText;
     private TextMeshProUGUI itemCountText;
-    private Button dropButton;
 
     private InventorySlot slot;
+    /// <summary>
+    /// 슬롯 접근용 프로퍼티
+    /// </summary>
+    public InventorySlot Slot { get => slot; }
+
+    /// <summary>
+    /// 추가 메뉴 패널 생성용 델리게이트 (파라미터 : 마우스 rect 위치 값)
+    /// </summary>
+    public Action<Vector2> OnRightClick;
 
     private void Awake()
     {
@@ -21,9 +31,6 @@ public class InventorySlotUI : MonoBehaviour
 
         child = transform.GetChild(2);
         itemCountText = child.GetComponent<TextMeshProUGUI>();
-
-        child = transform.GetChild(3);
-        dropButton = child.GetComponent<Button>();
     }
 
     private void SetDataEmpty()
@@ -39,7 +46,6 @@ public class InventorySlotUI : MonoBehaviour
     public void Init(InventorySlot currentSlot)
     {
         SetDataEmpty();
-        // dropButton.onClick.AddListener(); // TODO : 아이템 버리기 이벤트 추가하기
 
         slot = currentSlot;
     }
@@ -59,6 +65,18 @@ public class InventorySlotUI : MonoBehaviour
             icon.sprite = slot.Data.Icon;
             itemNameText.text = slot.Data.name;
             itemCountText.text = $"{slot.Count}";
+        }
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (slot.Data == null) // 아이템 정보 없으면 무시
+            return;
+
+        if(eventData.button == PointerEventData.InputButton.Right)
+        {
+            Vector2 pos = eventData.position;
+            OnRightClick?.Invoke(pos);
         }
     }
 }

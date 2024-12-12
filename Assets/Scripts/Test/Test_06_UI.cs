@@ -14,6 +14,9 @@ public class Test_06_UI : TestBase
 
     private Transform spawnPosition;
 
+    [Range(0, 10)]
+    public int index = 0;
+
     private void Start()
     {
         playerHealth.Init(player);
@@ -32,7 +35,7 @@ public class Test_06_UI : TestBase
 
     protected override void OnTest3(InputAction.CallbackContext context)
     {
-        player.Inventory.RemoveItems(0);
+        player.Inventory.DiscardItems(index);
     }
 
     protected override void OnTest4(InputAction.CallbackContext context)

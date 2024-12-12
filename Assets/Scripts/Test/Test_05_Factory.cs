@@ -31,7 +31,7 @@ public class Test_05_Factory : TestBase
     {
         // 플레이어가 아이템 버리기
 
-        List<ItemDataSO> items = player.Inventory.RemoveItems(index, count);
+        List<ItemDataSO> items = player.Inventory.DiscardItems(index, count);
 
         if (items != null)
         {

@@ -24,7 +24,7 @@ public class ItemBox : Product
 
     public List<ItemDataSO> RemoveItem(int index, int count)
     {
-        List<ItemDataSO> result = Inventory.RemoveItems(index, count);
+        List<ItemDataSO> result = Inventory.DiscardItems(index, count);
 
         if(CheckRemainItem())
         {

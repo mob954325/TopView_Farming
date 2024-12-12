@@ -28,7 +28,7 @@ public class Test_01_Inventory : TestBase
 
     protected override void OnTest2(InputAction.CallbackContext context)
     {
-        List<ItemDataSO> items = inven.RemoveItems(index, count);
+        List<ItemDataSO> items = inven.DiscardItems(index, count);
 
         if (items != null)
         {

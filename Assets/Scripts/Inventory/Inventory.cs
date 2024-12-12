@@ -84,7 +84,7 @@ public class Inventory
     /// <param name="slotIndex">제거할 슬롯 인덱스</param>
     /// <param name="count">제거할 개수</param>
     /// <returns>제거된 아이템 오브젝트 리스트</returns>
-    public List<ItemDataSO> RemoveItems(int slotIndex, int count = 1)
+    public List<ItemDataSO> DiscardItems(int slotIndex, int count = 1)
     {
         ItemDataSO data = slots[slotIndex].Data;
 
@@ -125,6 +125,7 @@ public class Inventory
         }
 
         inventoryUI[slotIndex].SetContent(slots[slotIndex]); // 다 버리고 UI 수정
+        // 팩토리에서 아이템 박스 추가하기
 
         return result;
     }
