@@ -2,16 +2,21 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ItemBox : Product
+public class ItemBox : Product, IInteractable
 {
     private Inventory inventory;
     public Inventory Inventory { get => inventory; }
 
+    private bool canInteract = false;
+    public bool CanInteract { get => canInteract; set => canInteract = value; }
+
+    public ContextType contextType;
     public int capacity = 10;
 
     public void Init()
     {
-        inventory = new Inventory(null, capacity); // ...
+        inventory = new Inventory(null, contextType, capacity); // ...
+        CanInteract = true;
     }
 
     public void AddItems(List<ItemDataSO> datas)

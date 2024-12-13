@@ -4,9 +4,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum AdditionalButtonType
+public enum ContextType
 {
-    Inventory = 0,  // 인벤토리 클릭 시
+    None = 0,
+    Inventory,  // 인벤토리 클릭 시
     Equipment,          // 장착 장비 클릭 시
     WorldObject     // 월드 오브젝트 클릭 시 (적, 상자)
 }
@@ -45,17 +46,28 @@ public class ContextMenuUI : MonoBehaviour
         OnDeactive();
     }
 
-    public void Init(AdditionalButtonType type)
+    public void Init(ContextType type)
     {
         switch (type)
         {
-            case AdditionalButtonType.Inventory:
+            case ContextType.Inventory:
                 SetInventroyButtons();
                 break;
-            case AdditionalButtonType.WorldObject:
+            case ContextType.WorldObject:
                 SetWorldObjectButtons();
                 break;
+            case ContextType.Equipment:
+                break;
         }
+    }
+
+    public void OnActive(Vector2 pos)
+    {
+        canvas.alpha = 1f;
+        canvas.blocksRaycasts = true;
+        canvas.interactable = true;
+        
+        SetPosition(pos + Vector2.down * rectTransform.rect.height);
     }
 
     public void OnActive(Inventory inven, int index, Vector2 pos)
@@ -92,26 +104,48 @@ public class ContextMenuUI : MonoBehaviour
             resultPos *= Vector2.right;
         }
 
+        if(pos.x < 0f)
+        {
+            resultPos *= Vector2.up;
+        }
+
+        if(pos.x + rectTransform.rect.width > Screen.width)
+        {
+            resultPos = new Vector2(Screen.width - rectTransform.rect.width, resultPos.y);
+        }
+
+        if(pos.y > Screen.height)
+        {
+            resultPos = new Vector2(resultPos.x, Screen.height - rectTransform.rect.height);
+        }
+
         rectTransform.anchoredPosition = resultPos;
     }
 
     private void SetInventroyButtons()
     {
-        buttons[0].gameObject.SetActive(true);
-        buttons[1].gameObject.SetActive(true);
-
         // 버리기
+        buttons[0].gameObject.SetActive(true);
         buttonTexts[0].text = $"Remove";
         buttons[0].onClick.AddListener(() => 
         { 
             inventory.DiscardItems(selectedIndex);
             OnDeactive();
-            Debug.Log("asdf");
         });
 
         // 사용
+        buttons[1].gameObject.SetActive(true);
         buttonTexts[1].text = $"Use";
-        buttons[1].onClick.AddListener(() => { });  // 아이템 사용 ??
+        buttons[1].onClick.AddListener(() => { });  // 
+    }
+
+    private void SetEquipmentButtons()
+    {
+        SetInventroyButtons();
+
+        buttons[1].gameObject.SetActive(true);
+        buttonTexts[1].text = $"Equip";
+        buttons[1].onClick.AddListener(() => { });  // 
     }
 
     private void SetWorldObjectButtons()

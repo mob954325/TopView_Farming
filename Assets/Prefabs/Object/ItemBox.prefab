@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64bcf5a2953aaff48bf90ceb34b67367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  contextType: 3
   capacity: 10
 --- !u!1 &8940685053307031072
 GameObject:

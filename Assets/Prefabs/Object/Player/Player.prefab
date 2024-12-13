@@ -142,7 +142,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f41cf046351c9849911adacc2323cc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
+  inventoryUI: {fileID: 0}
+  contextType: 1
 --- !u!114 &1488215163421106720
 MonoBehaviour:
   m_ObjectHideFlags: 0

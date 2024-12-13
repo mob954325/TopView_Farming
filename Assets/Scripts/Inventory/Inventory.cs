@@ -17,13 +17,19 @@ public class Inventory
 
     private int maxSlotCount = 10;
 
-    public Inventory(InventoryUI ui, int slotCount = 10)
+    /// <summary>
+    /// 인벤토리 생성자
+    /// </summary>
+    /// <param name="ui">출력할 GUI</param>
+    /// <param name="contextType">추가 메뉴 타입</param>
+    /// <param name="slotCount">슬롯 개수</param>
+    public Inventory(InventoryUI ui, ContextType contextType, int slotCount = 10)
     {
         maxSlotCount = slotCount;
         inventoryUI = ui;
 
         Init(); 
-        inventoryUI.Init(this);
+        inventoryUI.Init(this, contextType);
     }
     
     private void Init()
@@ -151,5 +157,13 @@ public class Inventory
         }
 
         return result;
+    }
+
+    public void RefreshUI()
+    {
+        for(int i = 0; i < slots.Count; i++)
+        {
+            inventoryUI[i].SetContent(slots[i]);
+        }
     }
 }

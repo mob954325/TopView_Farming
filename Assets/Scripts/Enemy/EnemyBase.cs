@@ -16,7 +16,7 @@ public enum EnemyState
 }
 
 [RequireComponent(typeof(EnemyController))]
-public class EnemyBase : Product, IHealth, ICombatable
+public class EnemyBase : Product, IHealth, ICombatable, IInteractable
 {
     private Player target;
     /// <summary>
@@ -34,6 +34,10 @@ public class EnemyBase : Product, IHealth, ICombatable
     public EnemyDataSO data;
 
     private List<StateBase> states;
+
+    public InventoryUI inventoryUI;
+    public ContextType contextType;
+
     private StateBase currentState;
     private EnemyState state;
 
@@ -84,6 +88,9 @@ public class EnemyBase : Product, IHealth, ICombatable
 
     public List<ItemDataSO> dropItems;
 
+    private bool canInteract = false;
+    public bool CanInteract { get => canInteract; set => canInteract = value; }
+
     // Unity ===================================================
     private void Awake()
     {
@@ -104,7 +111,7 @@ public class EnemyBase : Product, IHealth, ICombatable
         {
             states[i].Init();
         }
-    }
+    } 
 
     private void OnEnable()
     {
@@ -114,6 +121,7 @@ public class EnemyBase : Product, IHealth, ICombatable
         Health = MaxHealth;
 
         SetDropItem();
+        CanInteract = false;
         State = EnemyState.Idle;        
     }
 
@@ -136,6 +144,8 @@ public class EnemyBase : Product, IHealth, ICombatable
     public void Dead()
     {
         State = EnemyState.Dead;
+        CanInteract = true;
+
         OnDead?.Invoke();
     }
 

@@ -21,6 +21,7 @@ public class Player : MonoBehaviour, IHealth, ICombatable
     public Inventory Inventory { get => inventory; }
 
     public InventoryUI inventoryUI;
+    public ContextType contextType;
 
     private float health = 0;
     private float maxHealth = 10;
@@ -73,7 +74,7 @@ public class Player : MonoBehaviour, IHealth, ICombatable
 
     private void Start()
     {
-        inventory = new Inventory(inventoryUI);
+        inventory = new Inventory(inventoryUI, contextType, 20);
     }
 
     private void Update()
