@@ -257,6 +257,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 123982934}
   m_CullTransparentMesh: 1
+--- !u!114 &212049147 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3129350011320293508, guid: 231f0ef98d48bf447b4976ef4aa96801, type: 3}
+  m_PrefabInstance: {fileID: 2029414187}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d2b16e0c4fce78448467b7b39151a92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &217474363 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6307554236558109629, guid: d25ce2d90cc19fd4384ddcfe2832d591, type: 3}
@@ -1502,6 +1513,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   factory_Enemy: {fileID: 1322548883}
+  factory_ItemBox: {fileID: 212049147}
   player: {fileID: 913083119}
   playerHealth: {fileID: 3280608094126409651}
   data: {fileID: 11400000, guid: 0badf4fc0fbf66d488d55acd6bd84f9f, type: 2}
@@ -2133,7 +2145,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac45e0a1d4be5724fa8c611051a75daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canInspection: 0
 --- !u!114 &1815178132
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// 적 행동 타입
@@ -35,7 +36,9 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
 
     private List<StateBase> states;
 
+    private Inventory dropInventory;
     public InventoryUI inventoryUI;
+    private ContextMenuUI contextMenu;
     public ContextType contextType;
 
     private StateBase currentState;
@@ -68,6 +71,7 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
             {
                 // 적 사망
                 Debug.Log($"{gameObject.name}이(가) 사망했습니다");
+                CanInteract = true;
                 Dead();
             }
         }
@@ -86,14 +90,15 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
     public Action onAttack { get; set; }
     public Action onDefence { get; set; }
 
-    public List<ItemDataSO> dropItems;
-
     private bool canInteract = false;
     public bool CanInteract { get => canInteract; set => canInteract = value; }
 
     // Unity ===================================================
     private void Awake()
     {
+        inventoryUI = FindFirstObjectByType<InventoryUI>();
+        contextMenu = FindAnyObjectByType<ContextMenuUI>();
+
         // controller 초기화
         controller = GetComponent<EnemyController>();
         controller.Init();
@@ -120,6 +125,7 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
         MaxHealth = maxHealth;
         Health = MaxHealth;
 
+        dropInventory = new Inventory(inventoryUI, contextType);
         SetDropItem();
         CanInteract = false;
         State = EnemyState.Idle;        
@@ -144,8 +150,6 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
     public void Dead()
     {
         State = EnemyState.Dead;
-        CanInteract = true;
-
         OnDead?.Invoke();
     }
 
@@ -168,37 +172,16 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
     private void SetDropItem()
     {
         int count = data.dataTable.Count;
-        dropItems = new List<ItemDataSO>(count);
+        List<ItemDataSO> dropItems = new List<ItemDataSO>(count);
 
         for(int i = 0; i < count; i++)
         {
             float rand = UnityEngine.Random.Range(0f, 1f);
             if(rand <= data.dataTable[i].dropRate)
             {
-                dropItems.Add(data.dataTable[i].itemData);
+                dropInventory.AddItem(data.dataTable[i].itemData);
             }
         }
-    }
-
-    public ItemDataSO GetItem(int index)
-    {
-        ItemDataSO itemData = null;
-
-        if(dropItems.Count > 0 && index < dropItems.Count)
-        {
-            itemData = dropItems[index];
-
-            if (itemData != null)
-            {
-                dropItems.RemoveAt(index);
-            }
-        }
-        else
-        {
-            itemData = null;
-        }        
-
-        return itemData;
     }
 
     // 기타 ============================================================
@@ -259,6 +242,11 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
         Handles.color = CheckPlayerInSight() ? Color.red : Color.yellow;
         Handles.DrawLine(transform.position, transform.position + q1 * transform.forward * attackRange, 2f);
         Handles.DrawLine(transform.position, transform.position + q2 * transform.forward * attackRange, 2f);
+    }
+
+    public void OnInteract()
+    {
+        contextMenu.OnActive(contextType, dropInventory, Mouse.current.position.value);
     }
 #endif
 }

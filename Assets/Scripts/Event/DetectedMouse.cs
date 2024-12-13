@@ -6,16 +6,10 @@ public class DetectedMouse : MonoBehaviour
     private IInteractable target;
     private Outline outline;
 
-    private ContextMenuUI contextUI;
-
-    public bool canInspection = false;
-
-    private void Awake()
+    private void OnEnable()
     {
-        outline = GetComponent<Outline>();
+        outline = GetComponentInChildren<Outline>();
         target = GetComponent<IInteractable>();
-
-        contextUI = FindAnyObjectByType<ContextMenuUI>();
     }
 
     private void Start()
@@ -27,19 +21,14 @@ public class DetectedMouse : MonoBehaviour
     {
         if(Mouse.current.rightButton.isPressed)
         {
-            Debug.Log(Mouse.current.position.value);
-            contextUI.OnActive(Mouse.current.position.value);
+            target.OnInteract();
         }
 
         outline.enabled = true;
-        canInspection = true;
     }
 
     private void OnMouseExit()
     {
-        contextUI.OnDeactive();
-
         outline.enabled = false;
-        canInspection = false;
     }
 }

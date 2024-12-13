@@ -1,21 +1,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ItemBox : Product, IInteractable
 {
     private Inventory inventory;
     public Inventory Inventory { get => inventory; }
 
-    private bool canInteract = false;
+    private InventoryUI inventoryUI;
+    private ContextMenuUI contextMenu;
+
+    public bool canInteract = false;
     public bool CanInteract { get => canInteract; set => canInteract = value; }
 
     public ContextType contextType;
-    public int capacity = 10;
 
     public void Init()
     {
-        inventory = new Inventory(null, contextType, capacity); // ...
+        inventoryUI = FindAnyObjectByType<InventoryUI>();
+        contextMenu = FindAnyObjectByType<ContextMenuUI>();
+
+        inventory = new Inventory(inventoryUI, contextType); // ...
         CanInteract = true;
     }
 
@@ -53,5 +59,12 @@ public class ItemBox : Product, IInteractable
         }
 
         return result;
+    }
+
+    public void OnInteract()
+    {
+        // context메뉴가 열리고 
+        // 메뉴 내용 초기화
+        contextMenu.OnActive(contextType, inventory, Mouse.current.position.value);
     }
 }

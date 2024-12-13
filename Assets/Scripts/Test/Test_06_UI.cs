@@ -1,10 +1,12 @@
 #if UNITY_EDITOR
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Test_06_UI : TestBase
 {
     public Factory_Enemy factory_Enemy;
+    public Factory_ItemBox factory_ItemBox;
 
     public Player player;
     public HealthBar playerHealth;
@@ -40,12 +42,14 @@ public class Test_06_UI : TestBase
 
     protected override void OnTest4(InputAction.CallbackContext context)
     {
-        invenUI.SetActive();
+        List<ItemDataSO> temp = new List<ItemDataSO> { data };
+        factory_Enemy.SpawnEnemy(spawnPosition.position, spawnPosition.rotation);
+        factory_ItemBox.SpawnBox(temp, spawnPosition.position, spawnPosition.rotation);
     }
 
     protected override void OnTest5(InputAction.CallbackContext context)
     {
-        invenUI.SetDeActive();
+
     }
 
 }

@@ -19,57 +19,83 @@ public class InventoryUI : MonoBehaviour
     private ContextMenuUI contextMenu;
 
     private int slotCount = -1;
+    private bool isSlotsCreated = false;
 
     public InventorySlotUI this[int index]
     {
         get => inventorySlots[index];
     }
-
-    private void Awake()
+    public void Init(int count, ContextType contextType) 
     {
-        contextMenu = FindAnyObjectByType<ContextMenuUI>();
-        canvas = GetComponent<CanvasGroup>();
-        inventoryContent = GetComponentInChildren<InventoryContentUI>();
+        if (contextMenu == null) contextMenu = FindAnyObjectByType<ContextMenuUI>();
+        if (canvas == null) canvas = GetComponent<CanvasGroup>();
+        if (inventoryContent == null) inventoryContent = GetComponentInChildren<InventoryContentUI>();
+
+        slotCount = count;
+        CreateSlotUI(slotCount);
+
+        SetDeActive();
     }
 
-    public void Init(Inventory inven, ContextType contextType) 
-    { 
-        inventory = inven;
+    /// <summary>
+    /// 슬롯 UI 생성 (한 번만 실행)
+    /// </summary>
+    /// <param name="count"></param>
+    private void CreateSlotUI(int count)
+    {
+        if (isSlotsCreated)
+            return;
 
-        slotCount = inventory.Slots.Count;
-        inventorySlots = new List<InventorySlotUI>(slotCount);   
-
-        contextMenu.Init(contextType); // 적이나 상자는 ??
-
+        inventorySlots = new List<InventorySlotUI>(slotCount);
         for (int i = 0; i < slotCount; i++)
         {
-            // 슬롯 내용 초기화
             GameObject obj = Instantiate(slotPrefab, inventoryContent.transform);
-            obj.TryGetComponent(out InventorySlotUI comp);
+            inventorySlots.Add(obj.GetComponent<InventorySlotUI>());
+        }
 
+        inventoryContent.SetHeight(slotCount);
+        isSlotsCreated = true;
+    }
+
+    private void InitSlots()
+    {
+        for (int i = 0; i < slotCount; i++)
+        {
+            InventorySlotUI comp = inventorySlots[i];
             if (comp == null)
             {
                 Debug.LogError($"{slotPrefab} 오브젝트에 InventorySlotUI 컴포넌트가 존재하지 않습니다."); // 혹시 모를 컴포넌트 체크
             }
 
-            obj.name = $"slot_{i}";
             comp.Init(inventory.Slots[i]);
-
-            comp.OnRightClick += (pointerPosition) => 
+            comp.OnRightClick += (pointerPosition) =>
             {
                 float height = contextMenu.GetComponent<RectTransform>().rect.height;
                 int index = comp.Slot.SlotIndex;
-                contextMenu.OnActive(inventory, index, pointerPosition + Vector2.down * height);
+                contextMenu.OnActive(ContextType.Inventory, inventory, index, pointerPosition + Vector2.down * height);
             };
-            inventorySlots.Add(comp);
         }
-
-        inventoryContent.SetHeight(slotCount);
-        SetDeActive();
     }
 
-    public void SetActive()
+    /// <summary>
+    /// UI 패널 활성화, 비활성화 하는 함수
+    /// </summary>
+    public void ToggleActive(Inventory inven)
     {
+        if (canvas.alpha < 1f)
+        {
+            SetActive(inven);
+        }
+        else
+        {
+            SetDeActive();
+        }
+    }
+
+    public void SetActive(Inventory inven)
+    {
+        inventory = inven;
+        InitSlots();
         Inventory.RefreshUI();
 
         canvas.alpha = 1f;

@@ -4,6 +4,10 @@ using UnityEngine;
 public class Inventory
 {
     private InventoryUI inventoryUI;
+    /// <summary>
+    /// 해당 인벤토리 UI 접근용 프로퍼티
+    /// </summary>
+    public InventoryUI InventoryUI { get => inventoryUI; }
 
     /// <summary>
     /// 슬롯 리스트
@@ -15,7 +19,8 @@ public class Inventory
     /// </summary>
     public List<InventorySlot> Slots { get => slots; }
 
-    private int maxSlotCount = 10;
+    private int maxSlotCount = 15;
+    public int MaxSlotCount { get => maxSlotCount; }
 
     /// <summary>
     /// 인벤토리 생성자
@@ -23,13 +28,13 @@ public class Inventory
     /// <param name="ui">출력할 GUI</param>
     /// <param name="contextType">추가 메뉴 타입</param>
     /// <param name="slotCount">슬롯 개수</param>
-    public Inventory(InventoryUI ui, ContextType contextType, int slotCount = 10)
+    public Inventory(InventoryUI ui, ContextType contextType)
     {
-        maxSlotCount = slotCount;
+        maxSlotCount = 15;
         inventoryUI = ui;
 
         Init(); 
-        inventoryUI.Init(this, contextType);
+        inventoryUI.Init(MaxSlotCount, contextType);
     }
     
     private void Init()

@@ -23,8 +23,15 @@ public class ContextMenuUI : MonoBehaviour
     private Inventory inventory;
     private int selectedIndex = -1;
 
-    private void Awake()
+    private void Start()
     {
+        Init();
+        OnDeactive();
+    }
+
+    public void Init()
+    {
+        // 컴포넌트 찾기
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponent<CanvasGroup>();
 
@@ -33,7 +40,7 @@ public class ContextMenuUI : MonoBehaviour
         buttonTexts = new List<TextMeshProUGUI>(childCount);
 
         Transform child;
-        for(int i = 0; i < childCount; i++)
+        for (int i = 0; i < childCount; i++)
         {
             child = transform.GetChild(i);
             buttons.Add(child.GetComponent<Button>());
@@ -41,12 +48,7 @@ public class ContextMenuUI : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        OnDeactive();
-    }
-
-    public void Init(ContextType type)
+    private void SetButton(ContextType type)
     {
         switch (type)
         {
@@ -61,16 +63,19 @@ public class ContextMenuUI : MonoBehaviour
         }
     }
 
-    public void OnActive(Vector2 pos)
+    public void OnActive(ContextType type, Inventory inven, Vector2 pos)
     {
+        inventory = inven;
+
         canvas.alpha = 1f;
         canvas.blocksRaycasts = true;
         canvas.interactable = true;
         
+        SetButton(type);
         SetPosition(pos + Vector2.down * rectTransform.rect.height);
     }
 
-    public void OnActive(Inventory inven, int index, Vector2 pos)
+    public void OnActive(ContextType type, Inventory inven, int index, Vector2 pos)
     {
         inventory = inven;
         selectedIndex = index;
@@ -79,6 +84,7 @@ public class ContextMenuUI : MonoBehaviour
         canvas.blocksRaycasts = true;
         canvas.interactable = true;
 
+        SetButton(type);
         SetPosition(pos);
     }
 
@@ -122,8 +128,18 @@ public class ContextMenuUI : MonoBehaviour
         rectTransform.anchoredPosition = resultPos;
     }
 
+    private void ButtonsListenerReset()
+    {
+        foreach(Button button in buttons)
+        {
+            button.onClick.RemoveAllListeners();
+        }
+    }
+
     private void SetInventroyButtons()
     {
+        ButtonsListenerReset();
+
         // 버리기
         buttons[0].gameObject.SetActive(true);
         buttonTexts[0].text = $"Remove";
@@ -141,6 +157,7 @@ public class ContextMenuUI : MonoBehaviour
 
     private void SetEquipmentButtons()
     {
+        ButtonsListenerReset();
         SetInventroyButtons();
 
         buttons[1].gameObject.SetActive(true);
@@ -150,9 +167,17 @@ public class ContextMenuUI : MonoBehaviour
 
     private void SetWorldObjectButtons()
     {
+        ButtonsListenerReset();
+
         // 인벤토리 열기
         buttonTexts[0].text = $"Inspection";
-        buttons[0].onClick.AddListener(() => { }); // 해당 오브젝트가 가진 인벤토리 리스트 열기
+        buttons[0].onClick.AddListener(() => 
+        {
+            // 해당 오브젝트가 가진 인벤토리 리스트 열기
+            inventory.RefreshUI();
+            inventory.InventoryUI.SetActive(inventory);
+            OnDeactive();
+        }); 
 
         buttons[1].gameObject.SetActive(false);
     }

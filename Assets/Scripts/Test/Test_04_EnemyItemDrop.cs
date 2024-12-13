@@ -19,10 +19,10 @@ public class Test_04_EnemyItemDrop : TestBase
 
     protected override void OnTest1(InputAction.CallbackContext context)
     {
-        if(enemy.Health <= 0f)
+        /*if(enemy.Health <= 0f)
         {
             ItemDataSO itemData = enemy.GetItem(index);
-
+        
             if(itemData != null)
             {
                 player.Inventory.AddItem(itemData);
@@ -35,7 +35,7 @@ public class Test_04_EnemyItemDrop : TestBase
         else
         {
             Debug.Log("적이 생존해있습니다.");
-        }
+        }*/
     }
 }
 #endif

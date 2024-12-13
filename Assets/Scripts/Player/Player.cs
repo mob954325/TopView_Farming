@@ -74,7 +74,9 @@ public class Player : MonoBehaviour, IHealth, ICombatable
 
     private void Start()
     {
-        inventory = new Inventory(inventoryUI, contextType, 20);
+        inventory = new Inventory(inventoryUI, contextType);
+
+        Input.OnInteract += () => { inventoryUI.ToggleActive(Inventory); };
     }
 
     private void Update()
