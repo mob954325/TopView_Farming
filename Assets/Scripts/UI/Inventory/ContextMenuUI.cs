@@ -18,6 +18,7 @@ public class ContextMenuUI : MonoBehaviour
 {
     private Player player;
     private Factory_ItemBox factory_ItemBox;
+    private CombinationPanelUI combinationUI;
 
     private CanvasGroup canvas;
     private RectTransform rectTransform;
@@ -38,6 +39,7 @@ public class ContextMenuUI : MonoBehaviour
     {
         player = FindAnyObjectByType<Player>();
         factory_ItemBox = FindAnyObjectByType<Factory_ItemBox>();
+        combinationUI = FindAnyObjectByType<CombinationPanelUI>();
 
         // 컴포넌트 찾기
         rectTransform = GetComponent<RectTransform>();
@@ -148,6 +150,7 @@ public class ContextMenuUI : MonoBehaviour
         rectTransform.anchoredPosition = resultPos;
     }
 
+    // ContextMenu 설정 함수 ===================================================================================
     private void ButtonsListenerReset()
     {
         foreach(Button button in buttons)
@@ -176,8 +179,19 @@ public class ContextMenuUI : MonoBehaviour
 
         // 사용
         buttons[1].gameObject.SetActive(true);
-        buttonTexts[1].text = $"Use";
-        buttons[1].onClick.AddListener(() => { });  // 
+        buttonTexts[1].text = $"Create";
+        buttons[1].onClick.AddListener(() => 
+        {
+            combinationUI.SetActive();
+            bool isSuccess = combinationUI.SetData(inventory.Slots[selectedIndex].Data, selectedIndex);
+
+            if(!isSuccess)
+            {
+                Debug.Log("조합창 가득참");
+            }
+
+            OnDeactive();
+        });
     }
 
     private void SetEquipmentButtons()
@@ -187,7 +201,10 @@ public class ContextMenuUI : MonoBehaviour
 
         buttons[1].gameObject.SetActive(true);
         buttonTexts[1].text = $"Equip";
-        buttons[1].onClick.AddListener(() => { });  // 
+        buttons[1].onClick.AddListener(() => 
+        { 
+            player.EquipWeapon(inventory.Slots[selectedIndex].Data as ItemDataSO_Equipable); 
+        });
     }
 
     private void SetWorldObjectButtons()
