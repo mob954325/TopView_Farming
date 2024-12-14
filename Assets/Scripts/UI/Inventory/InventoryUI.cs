@@ -17,7 +17,7 @@ public class InventoryUI : MonoBehaviour
     private List<InventorySlotUI> inventorySlots;
 
     private ContextMenuUI contextMenu;
-    public ContextType invenContextType;
+    private ContextType invenContextType;
 
     private int slotCount = -1;
     private bool isSlotsCreated = false;

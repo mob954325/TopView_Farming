@@ -6,6 +6,7 @@ public class ItemDataSO : ScriptableObject
     public Sprite Icon;
     public GameObject prefab;
     public ItemType type;
+    public ItemCode code;
 
     public string objName = "Unknown_ItemName";
     public int maxCount = 1;

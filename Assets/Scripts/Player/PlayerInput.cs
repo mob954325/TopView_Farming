@@ -10,9 +10,9 @@ public class PlayerInput : MonoBehaviour
     public Vector2 LookVec { get; private set; }
 
     /// <summary>
-    /// 상호작용 키를 누를 때 실행되는 델리게이트
+    /// 인벤토리 키(I)를 누를 때 실행되는 델리게이트
     /// </summary>
-    public Action OnInteract;
+    public Action OnInvenOpen;
 
     /// <summary>
     /// 공격 키를 누를 때 실행되는 델리게이트
@@ -30,14 +30,14 @@ public class PlayerInput : MonoBehaviour
         actions.Player.Move.performed += OnMoveInput;
         actions.Player.Move.canceled += OnMoveInput;
         actions.Player.Look.performed += OnLookInput;
-        actions.Player.Interact.performed += OnInteractInput;
+        actions.Player.Inventory.performed += OnInvenInput;
         actions.Player.Attack.performed += OnAttackInput;
     }
 
     private void OnDisable()
     {
         actions.Player.Attack.performed -= OnAttackInput;
-        actions.Player.Interact.performed -= OnInteractInput;
+        actions.Player.Inventory.performed -= OnInvenInput;
         actions.Player.Look.performed -= OnLookInput;
         actions.Player.Move.canceled -= OnMoveInput;
         actions.Player.Move.performed -= OnMoveInput;
@@ -49,9 +49,9 @@ public class PlayerInput : MonoBehaviour
         OnAttack?.Invoke();
     }
 
-    private void OnInteractInput(InputAction.CallbackContext context)
+    private void OnInvenInput(InputAction.CallbackContext context)
     {
-        OnInteract?.Invoke();
+        OnInvenOpen?.Invoke();
     }
 
     private void OnLookInput(InputAction.CallbackContext context)

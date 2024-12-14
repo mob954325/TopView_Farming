@@ -63,7 +63,7 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler
         else
         {
             icon.sprite = slot.Data.Icon;
-            itemNameText.text = slot.Data.name;
+            itemNameText.text = slot.Data.objName;
             itemCountText.text = $"{slot.Count}";
         }
     }

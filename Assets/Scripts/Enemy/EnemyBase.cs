@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -26,13 +27,13 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
     public Player Target { get => target; }
 
     private EnemyController controller;
-
     /// <summary>
     /// EnemyController 접근 프로퍼티
     /// </summary>
     public EnemyController Controller { get => controller; }
 
     public EnemyDataSO data;
+    private Material material_Body;
 
     private List<StateBase> states;
 
@@ -96,6 +97,7 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
     // Unity ===================================================
     private void Awake()
     {
+        material_Body = transform.GetChild(1).GetComponent<MeshRenderer>().material;
         inventoryUI = FindFirstObjectByType<InventoryUI>();
         contextMenu = FindAnyObjectByType<ContextMenuUI>();
 
@@ -166,6 +168,26 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
     public void Attack(IHealth target)
     {
         target.Hit(AttackPower);
+    }
+
+    private IEnumerator HitProcess()
+    {
+        // 피격 이펙트 (머터리얼이 빨강으로 변하고 천천히 원래 색으로 돌아옴)
+        material_Body.color = Color.red;
+
+        float timeElapsed = 0.0f;
+        float maxTime = 0.5f;
+        float timeRatio = 1f / maxTime;
+        while (timeElapsed < 0.5f)
+        {
+            timeElapsed += Time.deltaTime;
+            material_Body.color = new Color
+                (1f,
+                timeElapsed * timeRatio,
+                timeElapsed * timeRatio);
+
+            yield return null;
+        }
     }
 
     public void Defence()
@@ -239,6 +261,14 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
         return result;
     }
 
+    public void OnInteract()
+    {
+        if(canInteract)
+        {
+            contextMenu.OnActive(contextType, inventory, Mouse.current.position.value);
+        }
+    }
+
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
@@ -251,11 +281,6 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
         Handles.color = CheckPlayerInSight() ? Color.red : Color.yellow;
         Handles.DrawLine(transform.position, transform.position + q1 * transform.forward * attackRange, 2f);
         Handles.DrawLine(transform.position, transform.position + q2 * transform.forward * attackRange, 2f);
-    }
-
-    public void OnInteract()
-    {
-        contextMenu.OnActive(contextType, inventory, Mouse.current.position.value);
     }
 #endif
 }
