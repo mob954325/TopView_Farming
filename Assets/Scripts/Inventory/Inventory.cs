@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,6 +20,11 @@ public class Inventory
     /// </summary>
     public List<InventorySlot> Slots { get => slots; }
 
+    /// <summary>
+    /// 아이템 제거시 호출되는 델리게이트 (오브젝트 제거용)
+    /// </summary>
+    public Action OnDiscardItem;
+
     private int maxSlotCount = 15;
     public int MaxSlotCount { get => maxSlotCount; }
 
@@ -28,13 +34,13 @@ public class Inventory
     /// <param name="ui">출력할 GUI</param>
     /// <param name="contextType">추가 메뉴 타입</param>
     /// <param name="slotCount">슬롯 개수</param>
-    public Inventory(InventoryUI ui, ContextType contextType)
+    public Inventory(InventoryUI ui)
     {
         maxSlotCount = 15;
         inventoryUI = ui;
 
         Init(); 
-        inventoryUI.Init(MaxSlotCount, contextType);
+        inventoryUI.Init(MaxSlotCount);
     }
     
     private void Init()
@@ -136,7 +142,7 @@ public class Inventory
         }
 
         inventoryUI[slotIndex].SetContent(slots[slotIndex]); // 다 버리고 UI 수정
-        // 팩토리에서 아이템 박스 추가하기
+        OnDiscardItem?.Invoke(); // 팩토리에서 아이템 박스 추가하기
 
         return result;
     }
@@ -159,6 +165,26 @@ public class Inventory
             }
 
             curIndex++;
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// 인벤토리에 아이템이 남아있는지 확인하는 함수
+    /// </summary>
+    /// <returns>없으면 true 아니면 false</returns>
+    public bool CheckIsInventoryEmpty()
+    {
+        bool result = true;
+
+        foreach (InventorySlot slot in Slots)
+        {
+            if (slot.Data != null)
+            {
+                result = false;
+                break;
+            }
         }
 
         return result;

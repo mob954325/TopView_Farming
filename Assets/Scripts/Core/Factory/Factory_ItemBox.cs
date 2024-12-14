@@ -7,6 +7,10 @@ public class Factory_ItemBox : Factory<ItemBox>
     {
         ItemBox box = SpawnProduct(pos, rot);
         box.Init();
-        box.AddItems(datas);
+
+        foreach(ItemDataSO item in datas)
+        {
+            box.Inventory.AddItem(item);
+        }
     }
 }

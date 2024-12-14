@@ -21,7 +21,6 @@ public class Player : MonoBehaviour, IHealth, ICombatable
     public Inventory Inventory { get => inventory; }
 
     public InventoryUI inventoryUI;
-    public ContextType contextType;
 
     private float health = 0;
     private float maxHealth = 10;
@@ -74,9 +73,9 @@ public class Player : MonoBehaviour, IHealth, ICombatable
 
     private void Start()
     {
-        inventory = new Inventory(inventoryUI, contextType);
+        inventory = new Inventory(inventoryUI);
 
-        Input.OnInteract += () => { inventoryUI.ToggleActive(Inventory); };
+        Input.OnInteract += () => { inventoryUI.ToggleActive(Inventory, ContextType.Inventory); }; // 인벤토리 열기
     }
 
     private void Update()

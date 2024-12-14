@@ -36,8 +36,8 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
 
     private List<StateBase> states;
 
-    private Inventory dropInventory;
-    public InventoryUI inventoryUI;
+    private Inventory inventory;
+    private InventoryUI inventoryUI;
     private ContextMenuUI contextMenu;
     public ContextType contextType;
 
@@ -125,8 +125,17 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
         MaxHealth = maxHealth;
         Health = MaxHealth;
 
-        dropInventory = new Inventory(inventoryUI, contextType);
+        inventory = new Inventory(inventoryUI);
         SetDropItem();
+        inventory.OnDiscardItem += () =>
+        {
+            if (inventory.CheckIsInventoryEmpty())
+            {
+                inventory.InventoryUI.SetDeactive();
+                this.gameObject.SetActive(false);
+            }
+        };
+
         CanInteract = false;
         State = EnemyState.Idle;        
     }
@@ -179,7 +188,7 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
             float rand = UnityEngine.Random.Range(0f, 1f);
             if(rand <= data.dataTable[i].dropRate)
             {
-                dropInventory.AddItem(data.dataTable[i].itemData);
+                inventory.AddItem(data.dataTable[i].itemData);
             }
         }
     }
@@ -246,7 +255,7 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
 
     public void OnInteract()
     {
-        contextMenu.OnActive(contextType, dropInventory, Mouse.current.position.value);
+        contextMenu.OnActive(contextType, inventory, Mouse.current.position.value);
     }
 #endif
 }

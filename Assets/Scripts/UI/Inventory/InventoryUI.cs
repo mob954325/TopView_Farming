@@ -17,6 +17,7 @@ public class InventoryUI : MonoBehaviour
     private List<InventorySlotUI> inventorySlots;
 
     private ContextMenuUI contextMenu;
+    public ContextType invenContextType;
 
     private int slotCount = -1;
     private bool isSlotsCreated = false;
@@ -25,7 +26,8 @@ public class InventoryUI : MonoBehaviour
     {
         get => inventorySlots[index];
     }
-    public void Init(int count, ContextType contextType) 
+
+    public void Init(int count) 
     {
         if (contextMenu == null) contextMenu = FindAnyObjectByType<ContextMenuUI>();
         if (canvas == null) canvas = GetComponent<CanvasGroup>();
@@ -33,8 +35,6 @@ public class InventoryUI : MonoBehaviour
 
         slotCount = count;
         CreateSlotUI(slotCount);
-
-        SetDeActive();
     }
 
     /// <summary>
@@ -54,6 +54,8 @@ public class InventoryUI : MonoBehaviour
         }
 
         inventoryContent.SetHeight(slotCount);
+
+        SetDeactive();
         isSlotsCreated = true;
     }
 
@@ -72,7 +74,7 @@ public class InventoryUI : MonoBehaviour
             {
                 float height = contextMenu.GetComponent<RectTransform>().rect.height;
                 int index = comp.Slot.SlotIndex;
-                contextMenu.OnActive(ContextType.Inventory, inventory, index, pointerPosition + Vector2.down * height);
+                contextMenu.OnActive(invenContextType, inventory, index, pointerPosition + Vector2.down * height);
             };
         }
     }
@@ -80,21 +82,23 @@ public class InventoryUI : MonoBehaviour
     /// <summary>
     /// UI 패널 활성화, 비활성화 하는 함수
     /// </summary>
-    public void ToggleActive(Inventory inven)
+    public void ToggleActive(Inventory inven, ContextType contextType)
     {
         if (canvas.alpha < 1f)
         {
-            SetActive(inven);
+            SetActive(inven, contextType);
         }
         else
         {
-            SetDeActive();
+            SetDeactive();
         }
     }
 
-    public void SetActive(Inventory inven)
+    public void SetActive(Inventory inven, ContextType contextType)
     {
         inventory = inven;
+        invenContextType = contextType;
+
         InitSlots();
         Inventory.RefreshUI();
 
@@ -103,7 +107,7 @@ public class InventoryUI : MonoBehaviour
         canvas.interactable = true;
     }
 
-    public void SetDeActive()
+    public void SetDeactive()
     {
         canvas.alpha = 0f;
         canvas.blocksRaycasts = false;

@@ -48,7 +48,7 @@ public class Test_05_Factory : TestBase
         // 박스에서 아이템 가져가기
         box = FindAnyObjectByType<ItemBox>();
 
-        List<ItemDataSO> items = box.RemoveItem(index, count);
+        List<ItemDataSO> items = box.Inventory.DiscardItems(index, count);
 
         if (items != null)
         {

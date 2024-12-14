@@ -7,13 +7,18 @@ using UnityEngine.UI;
 public enum ContextType
 {
     None = 0,
-    Inventory,  // 인벤토리 클릭 시
-    Equipment,          // 장착 장비 클릭 시
-    WorldObject     // 월드 오브젝트 클릭 시 (적, 상자)
+    Inventory,      // 플레이어 인벤토리 클릭 시
+    Equipment,      // 장착 장비 클릭 시
+    WorldObject,    // 월드 오브젝트 클릭 시 (적, 상자)
+    WorldObjectInventory // 플레이어 외 오브젝트의 인벤토리 클릭 시
+
 }
 
 public class ContextMenuUI : MonoBehaviour
 {
+    private Player player;
+    private Factory_ItemBox factory_ItemBox;
+
     private CanvasGroup canvas;
     private RectTransform rectTransform;
 
@@ -31,6 +36,9 @@ public class ContextMenuUI : MonoBehaviour
 
     public void Init()
     {
+        player = FindAnyObjectByType<Player>();
+        factory_ItemBox = FindAnyObjectByType<Factory_ItemBox>();
+
         // 컴포넌트 찾기
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponent<CanvasGroup>();
@@ -60,9 +68,15 @@ public class ContextMenuUI : MonoBehaviour
                 break;
             case ContextType.Equipment:
                 break;
+            case ContextType.WorldObjectInventory:
+                SetWorldObjectInventory();
+                break;
         }
     }
 
+    /// <summary>
+    /// ContextUI 활성화
+    /// </summary>
     public void OnActive(ContextType type, Inventory inven, Vector2 pos)
     {
         inventory = inven;
@@ -75,6 +89,9 @@ public class ContextMenuUI : MonoBehaviour
         SetPosition(pos + Vector2.down * rectTransform.rect.height);
     }
 
+    /// <summary>
+    /// ContextUI 활성화
+    /// </summary>
     public void OnActive(ContextType type, Inventory inven, int index, Vector2 pos)
     {
         inventory = inven;
@@ -88,6 +105,9 @@ public class ContextMenuUI : MonoBehaviour
         SetPosition(pos);
     }
 
+    /// <summary>
+    /// ContextMenuUI 비활성화
+    /// </summary>
     public void OnDeactive()
     {
         canvas.alpha = 0f;
@@ -145,7 +165,12 @@ public class ContextMenuUI : MonoBehaviour
         buttonTexts[0].text = $"Remove";
         buttons[0].onClick.AddListener(() => 
         { 
-            inventory.DiscardItems(selectedIndex);
+            List<ItemDataSO> datas = inventory.DiscardItems(selectedIndex);
+            Vector3 randVec = player.transform.position + Random.onUnitSphere;
+            randVec = new Vector3(randVec.x, 0.5f, randVec.z);
+
+            factory_ItemBox.SpawnBox(datas, randVec, Quaternion.identity);
+            inventory.RefreshUI();
             OnDeactive();
         });
 
@@ -174,10 +199,32 @@ public class ContextMenuUI : MonoBehaviour
         buttons[0].onClick.AddListener(() => 
         {
             // 해당 오브젝트가 가진 인벤토리 리스트 열기
-            inventory.RefreshUI();
-            inventory.InventoryUI.SetActive(inventory);
+            inventory.InventoryUI.SetActive(inventory,ContextType.WorldObjectInventory);
             OnDeactive();
         }); 
+
+        buttons[1].gameObject.SetActive(false);
+    }
+
+    private void SetWorldObjectInventory()
+    {
+        ButtonsListenerReset();
+
+        buttonTexts[0].text = $"Get";
+        buttons[0].onClick.AddListener(() =>
+        {
+            // 플레이어 인벤토리에 아이템 추가,
+            // 지금 출력된 인벤토리에 아이템 제거
+            List<ItemDataSO> datas = inventory.DiscardItems(selectedIndex);
+
+            foreach(ItemDataSO item in datas)
+            {
+                player.Inventory.AddItem(item);
+            }
+
+            inventory.RefreshUI();
+            OnDeactive();
+        });
 
         buttons[1].gameObject.SetActive(false);
     }
