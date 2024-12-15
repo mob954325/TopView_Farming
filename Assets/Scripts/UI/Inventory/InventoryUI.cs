@@ -83,7 +83,7 @@ public class InventoryUI : MonoBehaviour
                 }
                 else
                 { 
-                    contextMenu.OnActive(ContextType.InventorySlot, inventory, index, pointerPosition + Vector2.down * height);
+                    contextMenu.OnActive(invenContextType, inventory, index, pointerPosition + Vector2.down * height);
                 }
 
             };
