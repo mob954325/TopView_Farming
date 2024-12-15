@@ -28,7 +28,6 @@ public class PlayerAttackArea : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         // 들어오면 공격
-        Debug.Log(other);
         if (other.gameObject.tag == "Enemy")
         {
             IHealth target = other.gameObject.GetComponent<EnemyBase>() as IHealth;

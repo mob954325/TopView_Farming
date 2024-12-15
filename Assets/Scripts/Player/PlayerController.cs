@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
@@ -11,6 +12,8 @@ public class PlayerController : MonoBehaviour, IMoveable
 
     public float rotatePower = 90f;
 
+    public Action OnMoveAction { get; set; }
+
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
@@ -22,5 +25,6 @@ public class PlayerController : MonoBehaviour, IMoveable
 
         Vector3 rotVec = Vector3.Lerp(transform.eulerAngles, transform.eulerAngles + rotatePower * moveDir.x * Vector3.up, Time.deltaTime);
         characterController.gameObject.transform.eulerAngles = rotVec;
+        OnMoveAction?.Invoke();
     }
 }

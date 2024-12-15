@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerController), typeof(PlayerInput))]
+[RequireComponent(typeof(PlayerController), typeof(PlayerInput), typeof(PlayerAnimation))]
 public class Player : MonoBehaviour, IHealth, ICombatable
 {
     private PlayerController controller;
@@ -12,6 +12,7 @@ public class Player : MonoBehaviour, IHealth, ICombatable
     /// 플레이어 인풋 접근용 프로퍼티
     /// </summary>
     public PlayerInput Input { get => input; }
+    public PlayerAnimation anim;
 
     private Material material_Body;
     private WeaponSlot weaponSlot;
@@ -54,13 +55,12 @@ public class Player : MonoBehaviour, IHealth, ICombatable
     public float AttackRatePerSec { get => attackRatePerSec; set => attackRatePerSec = value; }
     public float AttackPower { get => attackPower; set => attackPower = value; }
     public float DefencePower { get => defencePower; set => defencePower = value; }
-    public Action onAttack { get; set; }
-    public Action onDefence { get; set; }
 
     private void Awake()
     {
         controller = GetComponent<PlayerController>();
         input = GetComponent<PlayerInput>();
+        anim = GetComponent<PlayerAnimation>();
         material_Body = transform.GetChild(1).GetComponent<MeshRenderer>().material;
         weaponSlot = FindAnyObjectByType<WeaponSlot>();
     }
@@ -74,9 +74,22 @@ public class Player : MonoBehaviour, IHealth, ICombatable
 
     private void Start()
     {
-        inventory = new Inventory(inventoryUI);
+        if(inventoryUI != null)
+        {
+            inventory = new Inventory(inventoryUI);
+        }
 
         Input.OnInvenOpen += () => { inventoryUI.ToggleActive(Inventory, ContextType.InventorySlot); }; // 인벤토리 열기
+        controller.OnMoveAction += () =>
+        {
+            bool isMove = input.MoveVec.sqrMagnitude > 0;
+            anim.PlayMove(isMove);
+        };
+
+        input.OnAttack += () =>
+        {
+            anim.PlayAttack();
+        };
     }
 
     private void Update()
@@ -129,12 +142,7 @@ public class Player : MonoBehaviour, IHealth, ICombatable
     public void Attack(IHealth target)
     {
         target.Hit(AttackPower + weaponSlot.WeaponDamage);
-        onAttack?.Invoke();
-    }
-
-    public void Defence()
-    {
-        onDefence?.Invoke();
+        input.OnAttack?.Invoke();
     }
 
     // 기타 ======================================================================

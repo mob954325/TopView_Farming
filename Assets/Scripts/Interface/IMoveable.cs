@@ -1,4 +1,4 @@
-using Unity.VisualScripting;
+using System;
 using UnityEngine;
 
 public interface IMoveable
@@ -11,4 +11,6 @@ public interface IMoveable
     /// <param name="moveDir">움직이는 방향</param>
     /// <returns>움직이려는 위치</returns>
     public void OnMove(Vector3 moveDir);
+
+    public Action OnMoveAction { get; set; }
 }

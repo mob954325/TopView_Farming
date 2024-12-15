@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -17,6 +18,9 @@ public class EnemyController : MonoBehaviour, IMoveable
             navAgent.speed = value;
         }
     }
+
+    public Action OnMoveAction { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
     public void Init()
     {
         navAgent = GetComponent<NavMeshAgent>();

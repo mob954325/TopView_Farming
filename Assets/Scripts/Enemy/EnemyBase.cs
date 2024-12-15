@@ -88,8 +88,6 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
     public float AttackRatePerSec { get => attackRatePerSec; set => attackRatePerSec = value; }
     public float AttackPower { get => attackPower; set => attackPower = value; }
     public float DefencePower { get => defencePower; set => defencePower = value; }
-    public Action onAttack { get; set; }
-    public Action onDefence { get; set; }
 
     private bool canInteract = false;
     public bool CanInteract { get => canInteract; set => canInteract = value; }
@@ -188,11 +186,6 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
 
             yield return null;
         }
-    }
-
-    public void Defence()
-    {
-        // 방어
     }
 
     // 아이템 ==========================================================
