@@ -74,7 +74,18 @@ public class InventoryUI : MonoBehaviour
             {
                 float height = contextMenu.GetComponent<RectTransform>().rect.height;
                 int index = comp.Slot.SlotIndex;
-                contextMenu.OnActive(invenContextType, inventory, index, pointerPosition + Vector2.down * height);
+
+                ItemDataSO data = comp.Slot.Data;
+
+                if (data is ItemDataSO_Equipable)
+                {
+                    contextMenu.OnActive(ContextType.EquipmentSlot, inventory, index, pointerPosition + Vector2.down * height);
+                }
+                else
+                { 
+                    contextMenu.OnActive(ContextType.InventorySlot, inventory, index, pointerPosition + Vector2.down * height);
+                }
+
             };
         }
     }

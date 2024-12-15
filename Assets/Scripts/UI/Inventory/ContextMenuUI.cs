@@ -7,10 +7,10 @@ using UnityEngine.UI;
 public enum ContextType
 {
     None = 0,
-    Inventory,      // 플레이어 인벤토리 클릭 시
-    Equipment,      // 장착 장비 클릭 시
-    WorldObject,    // 월드 오브젝트 클릭 시 (적, 상자)
-    WorldObjectInventory // 플레이어 외 오브젝트의 인벤토리 클릭 시
+    InventorySlot,          // 플레이어 인벤토리 클릭 시
+    EquipmentSlot,          // 장착 장비 클릭 시
+    WorldObject,            // 월드 오브젝트 클릭 시 (적, 상자)
+    WorldObjectInventory    // 플레이어 외 오브젝트의 인벤토리 클릭 시
 
 }
 
@@ -62,13 +62,14 @@ public class ContextMenuUI : MonoBehaviour
     {
         switch (type)
         {
-            case ContextType.Inventory:
-                SetInventroyButtons();
+            case ContextType.InventorySlot:
+                SetInventorySlotButtons();
                 break;
             case ContextType.WorldObject:
                 SetWorldObjectButtons();
                 break;
-            case ContextType.Equipment:
+            case ContextType.EquipmentSlot:
+                SetEquipmentSlotButtons();
                 break;
             case ContextType.WorldObjectInventory:
                 SetWorldObjectInventory();
@@ -151,23 +152,17 @@ public class ContextMenuUI : MonoBehaviour
     }
 
     // ContextMenu 설정 함수 ===================================================================================
-    private void ButtonsListenerReset()
+    
+    /// <summary>
+    /// 0번째 버튼 아이템 제거로 설정하는 함수
+    /// </summary>
+    private void SetInventorySlotRemove()
     {
-        foreach(Button button in buttons)
-        {
-            button.onClick.RemoveAllListeners();
-        }
-    }
-
-    private void SetInventroyButtons()
-    {
-        ButtonsListenerReset();
-
         // 버리기
         buttons[0].gameObject.SetActive(true);
         buttonTexts[0].text = $"Remove";
-        buttons[0].onClick.AddListener(() => 
-        { 
+        buttons[0].onClick.AddListener(() =>
+        {
             List<ItemDataSO> datas = inventory.DiscardItems(selectedIndex);
             Vector3 randVec = player.transform.position + Random.onUnitSphere;
             randVec = new Vector3(randVec.x, 0.5f, randVec.z);
@@ -176,10 +171,24 @@ public class ContextMenuUI : MonoBehaviour
             inventory.RefreshUI();
             OnDeactive();
         });
+    }
+    
+    private void ButtonsListenerReset()
+    {
+        foreach(Button button in buttons)
+        {
+            button.onClick.RemoveAllListeners();
+        }
+    }
+
+    private void SetInventorySlotButtons()
+    {
+        ButtonsListenerReset();
+        SetInventorySlotRemove();
 
         // 사용
         buttons[1].gameObject.SetActive(true);
-        buttonTexts[1].text = $"Create";
+        buttonTexts[1].text = $"Add Combination";
         buttons[1].onClick.AddListener(() => 
         {
             combinationUI.SetActive();
@@ -194,17 +203,30 @@ public class ContextMenuUI : MonoBehaviour
         });
     }
 
-    private void SetEquipmentButtons()
+    private void SetEquipmentSlotButtons()
     {
         ButtonsListenerReset();
-        SetInventroyButtons();
+        SetInventorySlotRemove();
 
         buttons[1].gameObject.SetActive(true);
-        buttonTexts[1].text = $"Equip";
-        buttons[1].onClick.AddListener(() => 
-        { 
-            player.EquipWeapon(inventory.Slots[selectedIndex].Data as ItemDataSO_Equipable); 
-        });
+        if(player.WeaponData != null)
+        {
+            buttonTexts[1].text = $"UnEquip";
+            buttons[1].onClick.AddListener(() =>
+            {
+                player.UnEquipWeapon();
+                OnDeactive();
+            });
+        }
+        else
+        {
+            buttonTexts[1].text = $"Equip";
+            buttons[1].onClick.AddListener(() =>
+            {
+                player.EquipWeapon(inventory.Slots[selectedIndex].Data as ItemDataSO_Equipable);
+                OnDeactive();
+            });
+        }
     }
 
     private void SetWorldObjectButtons()

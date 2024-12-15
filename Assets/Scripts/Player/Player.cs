@@ -16,6 +16,7 @@ public class Player : MonoBehaviour, IHealth, ICombatable
     private Material material_Body;
     private WeaponSlot weaponSlot;
     private ItemDataSO_Equipable weaponData;
+    public ItemDataSO_Equipable WeaponData { get => weaponData; }
 
     private Inventory inventory;
     public Inventory Inventory { get => inventory; }
@@ -75,7 +76,7 @@ public class Player : MonoBehaviour, IHealth, ICombatable
     {
         inventory = new Inventory(inventoryUI);
 
-        Input.OnInvenOpen += () => { inventoryUI.ToggleActive(Inventory, ContextType.Inventory); }; // 인벤토리 열기
+        Input.OnInvenOpen += () => { inventoryUI.ToggleActive(Inventory, ContextType.InventorySlot); }; // 인벤토리 열기
     }
 
     private void Update()

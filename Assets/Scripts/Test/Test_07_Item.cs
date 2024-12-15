@@ -28,7 +28,7 @@ public class Test_07_Item : TestBase
 
     protected override void OnTest2(InputAction.CallbackContext context)
     {
-        InventorySlot item1 = player.Inventory.Slots[index1];
+        /*InventorySlot item1 = player.Inventory.Slots[index1];
         InventorySlot item2 = player.Inventory.Slots[index2];
 
         if (item1 == null || item2 == null) // 둘 중 하나라도 아이템이 없으면 종료
@@ -42,7 +42,9 @@ public class Test_07_Item : TestBase
             player.Inventory.Slots[index2].DiscardItem();
 
             player.Inventory.AddItem(manager.ItemDataManager.Items[(int)valueCode]);
-        }
+        }*/
+
+        player.Inventory.AddItem(manager.ItemDataManager.Items[(int)ItemCode.RedStick]);
     }
 }
 #endif

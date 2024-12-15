@@ -20,5 +20,6 @@ public enum ItemCode
     Broken_Wood_Carving,
     Damanged_Equipment,
     Scrap,
-    Button
+    Button,
+    RedStick
 }
