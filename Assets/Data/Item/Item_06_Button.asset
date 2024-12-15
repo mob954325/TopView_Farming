@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fbaff7163dfc83d47a01cd6940e9d876, type: 3}
-  m_Name: Item_-1_None
+  m_Name: Item_06_Button
   m_EditorClassIdentifier: 
-  Icon: {fileID: 21300000, guid: 6c8d36f9a3f5c4a4e936cac54451fcfd, type: 3}
+  Icon: {fileID: 21300000, guid: c67d43e8a093cac4b826d24e7c07017b, type: 3}
   prefab: {fileID: 0}
   type: 0
-  code: 0
-  objName: Unknown_ItemName
+  code: 6
+  objName: Button
   maxCount: 1
   price: 0
