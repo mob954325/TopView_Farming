@@ -10,6 +10,7 @@ public enum ContextType
     InventorySlot,          // 플레이어 인벤토리 클릭 시
     EquipmentSlot,          // 장착 장비 클릭 시
     PlaceableSlot,          // 설치 아이템 클릭 시
+    UseableSlot,            // 사용 아이템 클릭 시
     WorldObject,            // 월드 오브젝트 클릭 시 (적, 상자)
     WorldObjectInventory    // 플레이어 외 오브젝트의 인벤토리 클릭 시
 
@@ -71,6 +72,9 @@ public class ContextMenuUI : MonoBehaviour
                 break;
             case ContextType.EquipmentSlot:
                 SetEquipmentSlotButtons();
+                break;
+            case ContextType.UseableSlot:
+                SetUseableSlotButtons();
                 break;
             case ContextType.WorldObject:
                 SetWorldObjectButtons();
@@ -247,6 +251,27 @@ public class ContextMenuUI : MonoBehaviour
             List<ItemDataSO> dataList = inventory.DiscardItems(selectedIndex);
             ItemDataSO_Placeable data = dataList[0] as ItemDataSO_Placeable;
             GameObject obj = Instantiate(data.worldObject);
+
+            inventory.InventoryUI.SetDeactive();
+            OnDeactive();
+        });
+    }
+
+    private void SetUseableSlotButtons()
+    {
+        ButtonsListenerReset();
+        SetInventorySlotRemove();
+
+        buttons[1].gameObject.SetActive(true);
+
+        buttonTexts[1].text = $"Use";
+        buttons[1].onClick.AddListener(() =>
+        {
+            // 사용
+            List<ItemDataSO> dataList = inventory.DiscardItems(selectedIndex);
+            ItemDataSO_Useable data = dataList[0] as ItemDataSO_Useable;
+            // 사용 함수 실행
+            data.function.OnUse();
 
             inventory.InventoryUI.SetDeactive();
             OnDeactive();

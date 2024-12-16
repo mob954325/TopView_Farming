@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbaff7163dfc83d47a01cd6940e9d876, type: 3}
+  m_Script: {fileID: 11500000, guid: b3693e5a4468ec9499d720e1cff39ef2, type: 3}
   m_Name: Item_06_Button
   m_EditorClassIdentifier: 
   Icon: {fileID: 21300000, guid: c67d43e8a093cac4b826d24e7c07017b, type: 3}
-  prefab: {fileID: 0}
-  type: 0
+  type: 3
   code: 6
-  objName: Button
+  objName: Extraction Button
   maxCount: 1
   price: 0
+  function: {fileID: 1377605955704084214, guid: 577f3d0cf5d4f1646b93cbf3329b8e4a, type: 3}
