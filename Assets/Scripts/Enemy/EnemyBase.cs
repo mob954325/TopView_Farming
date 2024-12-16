@@ -17,7 +17,7 @@ public enum EnemyState
     Dead
 }
 
-[RequireComponent(typeof(EnemyController))]
+[RequireComponent(typeof(EnemyController), typeof(PlayerAnimation))]
 public class EnemyBase : Product, IHealth, ICombatable, IInteractable
 {
     private Player target;
@@ -26,11 +26,13 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
     /// </summary>
     public Player Target { get => target; }
 
+    public GameObject worldObject => this.gameObject;
     private EnemyController controller;
     /// <summary>
     /// EnemyController 접근 프로퍼티
     /// </summary>
     public EnemyController Controller { get => controller; }
+    private PlayerAnimation anim;
 
     public EnemyDataSO data;
     private Material material_Body;
@@ -81,6 +83,7 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
     public Action OnHit { get; set; }
     public Action OnDead { get; set; }
 
+    private float attackRange = 5f;
     private float attackRatePerSec = 1f;
     private float attackPower = 1f;
     private float defencePower = 0f;
@@ -95,9 +98,11 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
     // Unity ===================================================
     private void Awake()
     {
+        // 컴포넌트 찾기
         material_Body = transform.GetChild(1).GetComponent<MeshRenderer>().material;
         inventoryUI = FindFirstObjectByType<InventoryUI>();
         contextMenu = FindAnyObjectByType<ContextMenuUI>();
+        anim = GetComponent<PlayerAnimation>();
 
         // controller 초기화
         controller = GetComponent<EnemyController>();
@@ -116,6 +121,21 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
         {
             states[i].Init();
         }
+
+        // 액션 추가
+        Controller.OnMoveAction += () =>
+        {
+            if (Controller.CheckIsStop())
+            {
+                anim.PlayMove(false);
+            }
+            else
+            {
+                anim.PlayMove(true);
+            }
+        };
+
+
     } 
 
     private void OnEnable()
@@ -124,17 +144,7 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
 
         MaxHealth = maxHealth;
         Health = MaxHealth;
-
-        inventory = new Inventory(inventoryUI);
-        SetDropItem();
-        inventory.OnDiscardItem += () =>
-        {
-            if (inventory.CheckIsInventoryEmpty())
-            {
-                inventory.InventoryUI.SetDeactive();
-                this.gameObject.SetActive(false);
-            }
-        };
+        SetInventory();
 
         CanInteract = false;
         State = EnemyState.Idle;        
@@ -166,6 +176,7 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
     public void Attack(IHealth target)
     {
         target.Hit(AttackPower);
+        anim.PlayAttack();
     }
 
     private IEnumerator HitProcess()
@@ -210,7 +221,21 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
 
     // 기타 ============================================================
 
-    private float attackRange = 5f;
+    private void SetInventory()
+    {
+        if (inventoryUI == null) return;
+
+        inventory = new Inventory(inventoryUI);
+        SetDropItem();
+        inventory.OnDiscardItem += () =>
+        {
+            if (inventory.CheckIsInventoryEmpty())
+            {
+                inventory.InventoryUI.SetDeactive();
+                this.gameObject.SetActive(false);
+            }
+        };
+    }
 
     /// <summary>
     /// 공격 범위 내에 있으면 true 아니면 false

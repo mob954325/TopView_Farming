@@ -4,6 +4,11 @@ using UnityEngine;
 public interface IHealth
 {
     /// <summary>
+    /// UI용 사용하는 인터페이스의 오브젝트
+    /// </summary>
+    GameObject worldObject { get; }
+
+    /// <summary>
     /// 현재 체력
     /// </summary>
     float Health { get; set; }

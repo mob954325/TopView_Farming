@@ -8,7 +8,6 @@ public class EnemyController : MonoBehaviour, IMoveable
     private NavMeshAgent navAgent;
 
     private float speed = 1.0f;
-
     public float Speed 
     {
         get => speed;
@@ -19,20 +18,21 @@ public class EnemyController : MonoBehaviour, IMoveable
         }
     }
 
-    public Action OnMoveAction { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public Action OnMoveAction { get; set; }
+
+    private void Update()
+    {
+        OnMoveAction?.Invoke();
+    }
 
     public void Init()
     {
         navAgent = GetComponent<NavMeshAgent>();
     }
 
-    /// <summary>
-    /// navMeshAgent 사용한 움직임 함수
-    /// </summary>
-    /// <param name="moveDir">목적지</param>
     public void OnMove(Vector3 moveDir)
     {
-        //navAgent.Move(moveDir);     
+        // 사용 안함  
     }
 
     public void SetStop(bool value)

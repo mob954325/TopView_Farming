@@ -24,6 +24,8 @@ public class Player : MonoBehaviour, IHealth, ICombatable
 
     public InventoryUI inventoryUI;
 
+    public GameObject worldObject => this.gameObject;
+
     private float health = 0;
     private float maxHealth = 10;
     private bool isImmunite = false;
