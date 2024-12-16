@@ -13,7 +13,7 @@ public class WeaponSlot : MonoBehaviour
 
     public void AddWeapon(ItemDataSO_Equipable data)
     {
-        weaponObj = Instantiate(data.prefab, this.transform);
+        weaponObj = Instantiate(data.weaponPrefab, this.transform);
         weaponObj.name = data.name;
         weaponDamage = data.damage;
     }

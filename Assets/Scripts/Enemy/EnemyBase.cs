@@ -17,7 +17,7 @@ public enum EnemyState
     Dead
 }
 
-[RequireComponent(typeof(EnemyController), typeof(PlayerAnimation))]
+[RequireComponent(typeof(EnemyController), typeof(HumanAnimation))]
 public class EnemyBase : Product, IHealth, ICombatable, IInteractable
 {
     private Player target;
@@ -32,7 +32,7 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
     /// EnemyController 접근 프로퍼티
     /// </summary>
     public EnemyController Controller { get => controller; }
-    private PlayerAnimation anim;
+    private HumanAnimation anim;
 
     public EnemyDataSO data;
     private Material material_Body;
@@ -102,7 +102,7 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
         material_Body = transform.GetChild(1).GetComponent<MeshRenderer>().material;
         inventoryUI = FindFirstObjectByType<InventoryUI>();
         contextMenu = FindAnyObjectByType<ContextMenuUI>();
-        anim = GetComponent<PlayerAnimation>();
+        anim = GetComponent<HumanAnimation>();
 
         // controller 초기화
         controller = GetComponent<EnemyController>();

@@ -12,9 +12,11 @@ GameObject:
   - component: {fileID: 7567945242137032910}
   - component: {fileID: 4834381043284704926}
   - component: {fileID: 2735762821072061618}
+  - component: {fileID: 1195129790527542786}
   - component: {fileID: 7472036491987726340}
   - component: {fileID: 2714828508184096519}
   - component: {fileID: 4765649691178289902}
+  - component: {fileID: 73378550075802148}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Enemy
@@ -89,6 +91,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b18b69f704f402c45be534fafc8bcc5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1195129790527542786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2551197750501592625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 874059d82527f9a4e8a92d5485237d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &7472036491987726340
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -144,6 +158,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &73378550075802148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2551197750501592625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 874059d82527f9a4e8a92d5485237d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8647465427138089266
 GameObject:
   m_ObjectHideFlags: 0

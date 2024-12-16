@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerController), typeof(PlayerInput), typeof(PlayerAnimation))]
+[RequireComponent(typeof(PlayerController), typeof(PlayerInput), typeof(HumanAnimation))]
 public class Player : MonoBehaviour, IHealth, ICombatable
 {
     private PlayerController controller;
@@ -12,7 +12,7 @@ public class Player : MonoBehaviour, IHealth, ICombatable
     /// 플레이어 인풋 접근용 프로퍼티
     /// </summary>
     public PlayerInput Input { get => input; }
-    public PlayerAnimation anim;
+    public HumanAnimation anim;
 
     private Material material_Body;
     private WeaponSlot weaponSlot;
@@ -62,7 +62,7 @@ public class Player : MonoBehaviour, IHealth, ICombatable
     {
         controller = GetComponent<PlayerController>();
         input = GetComponent<PlayerInput>();
-        anim = GetComponent<PlayerAnimation>();
+        anim = GetComponent<HumanAnimation>();
         material_Body = transform.GetChild(1).GetComponent<MeshRenderer>().material;
         weaponSlot = FindAnyObjectByType<WeaponSlot>();
     }

@@ -29,15 +29,6 @@ public class Test_01_Inventory : TestBase
     protected override void OnTest2(InputAction.CallbackContext context)
     {
         List<ItemDataSO> items = inven.DiscardItems(index, count);
-
-        if (items != null)
-        {
-            foreach (var item in items)
-            {
-                GameObject curObj = Instantiate(item.prefab);
-                curObj.transform.position = spawnPos.position;
-            }
-        }
     }
 }
 #endif

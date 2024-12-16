@@ -518,23 +518,6 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 8a510ababa9d45a438353b75904bdf47, type: 2}
   m_BuildHeightMesh: 0
---- !u!1 &1110862059 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2551197750501592625, guid: 6912e0b705f35ad48938ac6b108dde0d, type: 3}
-  m_PrefabInstance: {fileID: 2003522090}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1110862067
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1110862059}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 874059d82527f9a4e8a92d5485237d54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1745837517
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -647,10 +630,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2551197750501592625, guid: 6912e0b705f35ad48938ac6b108dde0d, type: 3}
-      insertIndex: 4
-      addedObject: {fileID: 1110862067}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6912e0b705f35ad48938ac6b108dde0d, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
