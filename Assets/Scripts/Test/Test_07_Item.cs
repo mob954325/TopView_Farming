@@ -24,6 +24,7 @@ public class Test_07_Item : TestBase
     {
         player.Inventory.AddItem(manager.ItemDataManager.Items[(int)ItemCode.Scrap]);
         player.Inventory.AddItem(manager.ItemDataManager.Items[(int)ItemCode.Damanged_Equipment]);
+        player.Inventory.AddItem(manager.ItemDataManager.Items[(int)ItemCode.RustyNail]);
     }
 
     protected override void OnTest2(InputAction.CallbackContext context)

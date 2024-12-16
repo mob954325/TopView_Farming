@@ -6,7 +6,8 @@ using Unity;
 public enum ItemType
 {
     Normal = 0,
-    Weapon
+    Weapon,
+    Placeable
 }
 
 /// <summary>
@@ -21,5 +22,6 @@ public enum ItemCode
     Damanged_Equipment,
     Scrap,
     Button,
-    RedStick
+    RedStick,
+    Spike
 }

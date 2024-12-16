@@ -1,10 +1,9 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Item_0_A", menuName = "Data/Item/Normal", order = 1)]
+[CreateAssetMenu(fileName = "Item_0_A", menuName = "Data/Item/Normal", order = 0)]
 public class ItemDataSO : ScriptableObject
 {
     public Sprite Icon;
-    public GameObject prefab;
     public ItemType type;
     public ItemCode code;
 

@@ -9,6 +9,7 @@ public enum ContextType
     None = 0,
     InventorySlot,          // 플레이어 인벤토리 클릭 시
     EquipmentSlot,          // 장착 장비 클릭 시
+    PlaceableSlot,          // 설치 아이템 클릭 시
     WorldObject,            // 월드 오브젝트 클릭 시 (적, 상자)
     WorldObjectInventory    // 플레이어 외 오브젝트의 인벤토리 클릭 시
 
@@ -65,11 +66,14 @@ public class ContextMenuUI : MonoBehaviour
             case ContextType.InventorySlot:
                 SetInventorySlotButtons();
                 break;
-            case ContextType.WorldObject:
-                SetWorldObjectButtons();
+            case ContextType.PlaceableSlot:
+
                 break;
             case ContextType.EquipmentSlot:
                 SetEquipmentSlotButtons();
+                break;
+            case ContextType.WorldObject:
+                SetWorldObjectButtons();
                 break;
             case ContextType.WorldObjectInventory:
                 SetWorldObjectInventory();
@@ -227,6 +231,18 @@ public class ContextMenuUI : MonoBehaviour
                 OnDeactive();
             });
         }
+    }
+
+    private void SetPlaceableSlotButtons()
+    {
+        buttons[1].gameObject.SetActive(true);
+
+        buttonTexts[1].text = $"Place";
+        buttons[1].onClick.AddListener(() =>
+        {
+            // 설치
+            OnDeactive();
+        });
     }
 
     private void SetWorldObjectButtons()

@@ -81,6 +81,10 @@ public class InventoryUI : MonoBehaviour
                 {
                     contextMenu.OnActive(ContextType.EquipmentSlot, inventory, index, pointerPosition + Vector2.down * height);
                 }
+                else if(data is ItemDataSO_Placeable)
+                {
+                    contextMenu.OnActive(ContextType.PlaceableSlot, inventory, index, pointerPosition + Vector2.down * height);
+                }
                 else
                 { 
                     contextMenu.OnActive(invenContextType, inventory, index, pointerPosition + Vector2.down * height);

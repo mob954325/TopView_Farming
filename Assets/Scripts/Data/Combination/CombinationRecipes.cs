@@ -26,9 +26,10 @@ public class CombinationRecipes : MonoBehaviour
     private void SetRecipeData()
     {
         recipe = new Dictionary<Combination, ItemCode>();
-        recipe.Add( // key(두개의 아이템 코드), value(조합 완료된 아이템 코드)
-            new Combination(ItemCode.Damanged_Equipment, ItemCode.Scrap), ItemCode.Button
-            );
+
+        // key(두개의 아이템 코드), value(조합 완료된 아이템 코드)
+        recipe.Add(new Combination(ItemCode.Damanged_Equipment, ItemCode.Scrap), ItemCode.Button);  // 파손된 장비 + 고철 = 버튼
+        recipe.Add(new Combination(ItemCode.Scrap, ItemCode.RustyNail), ItemCode.Spike);            // 고철 + 녹슨 못    = 스파이크
     }
 
     /// <summary>
