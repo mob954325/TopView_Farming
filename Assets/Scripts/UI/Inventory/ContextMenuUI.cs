@@ -67,7 +67,7 @@ public class ContextMenuUI : MonoBehaviour
                 SetInventorySlotButtons();
                 break;
             case ContextType.PlaceableSlot:
-
+                SetPlaceableSlotButtons();
                 break;
             case ContextType.EquipmentSlot:
                 SetEquipmentSlotButtons();
@@ -235,12 +235,20 @@ public class ContextMenuUI : MonoBehaviour
 
     private void SetPlaceableSlotButtons()
     {
+        ButtonsListenerReset();
+        SetInventorySlotRemove();
+
         buttons[1].gameObject.SetActive(true);
 
         buttonTexts[1].text = $"Place";
         buttons[1].onClick.AddListener(() =>
         {
             // 설치
+            List<ItemDataSO> dataList = inventory.DiscardItems(selectedIndex);
+            ItemDataSO_Placeable data = dataList[0] as ItemDataSO_Placeable;
+            GameObject obj = Instantiate(data.worldObject);
+
+            inventory.InventoryUI.SetDeactive();
             OnDeactive();
         });
     }
