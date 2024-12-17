@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5204570348687127458}
   - component: {fileID: 7381835872819142064}
   - component: {fileID: 4415857197323091323}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: AttackArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81,7 +81,8 @@ GameObject:
   - component: {fileID: 1953334095906088017}
   - component: {fileID: 8718571189203212747}
   - component: {fileID: 4644824343284352048}
-  m_Layer: 0
+  - component: {fileID: 6233431056961223377}
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -143,6 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f41cf046351c9849911adacc2323cc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 0}
   inventoryUI: {fileID: 0}
 --- !u!114 &1488215163421106720
 MonoBehaviour:
@@ -219,6 +221,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6233431056961223377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1886914479067066588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 874059d82527f9a4e8a92d5485237d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4376593976672343629
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,7 +244,7 @@ GameObject:
   - component: {fileID: 705407076849765112}
   - component: {fileID: 7422812672000334687}
   - component: {fileID: 9049396143057311256}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -316,7 +330,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7706878035477846796}
   - component: {fileID: 8869007163876803509}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WeaponSlot
   m_TagString: Untagged
   m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
@@ -359,7 +373,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6307554236558109629}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CamTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
