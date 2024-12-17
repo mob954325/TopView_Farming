@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Item_07_WeaponBar
   m_EditorClassIdentifier: 
   Icon: {fileID: 21300000, guid: 6c8d36f9a3f5c4a4e936cac54451fcfd, type: 3}
-  prefab: {fileID: 919132149155446097, guid: 0f4f1202a7c0f2342bfaf01c68a6a205, type: 3}
   type: 1
-  code: 0
+  code: 7
   objName: RedStick
   maxCount: 1
   price: 100
+  weaponPrefab: {fileID: 8757703607711889646, guid: 74e6c79faf6a8fa4ca3dd610d88ec8e3, type: 3}
   damage: 1

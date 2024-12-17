@@ -21,3 +21,7 @@ MonoBehaviour:
     dropRate: 0.5
   - itemData: {fileID: 11400000, guid: ff282ac8bff25a549bf21a8b76c47257, type: 2}
     dropRate: 0.3
+  - itemData: {fileID: 11400000, guid: 8a1831b2d7e681544bebd0dc573edf98, type: 2}
+    dropRate: 0.251
+  - itemData: {fileID: 11400000, guid: f85aba700f2ba1242b0f17f892adebf9, type: 2}
+    dropRate: 0.808

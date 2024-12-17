@@ -3,7 +3,6 @@ using UnityEngine;
 public class Function_Button : ItemFunctionBase
 {
     public GameObject ExtractionPointPrefab;
-    private float mapRange = 80f;
 
     protected override void OnItemUse()
     {

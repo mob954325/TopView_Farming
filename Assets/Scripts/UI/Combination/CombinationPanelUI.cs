@@ -35,9 +35,7 @@ public class CombinationPanelUI : MonoBehaviour
 
         Transform contentPanel = transform.GetChild(0);
         icon_Left = contentPanel.GetChild(0).GetComponent<Image>();
-        Debug.Log(icon_Left);
         icon_Right = contentPanel.GetChild(1).GetComponent<Image>();
-        Debug.Log(icon_Right);
 
         cancelButton = contentPanel.GetChild(2).GetComponent<Button>();
         comfirmButton = contentPanel.GetChild(3).GetComponent<Button>();

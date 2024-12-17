@@ -5,14 +5,15 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerController), typeof(PlayerInput), typeof(HumanAnimation))]
 public class Player : MonoBehaviour, IHealth, ICombatable
 {
+    private SoundManager soundManager;
     private PlayerController controller;
     private PlayerInput input;
-
     /// <summary>
     /// 플레이어 인풋 접근용 프로퍼티
     /// </summary>
     public PlayerInput Input { get => input; }
-    public HumanAnimation anim;
+    private HumanAnimation anim;
+    public HealthBar playerHealthBar;
 
     private Material material_Body;
     private WeaponSlot weaponSlot;
@@ -37,7 +38,6 @@ public class Player : MonoBehaviour, IHealth, ICombatable
         {
             health = Mathf.Clamp(value, 0, MaxHealth);            
 
-            Debug.Log($"플레이어 체력 : {health}");
             if ( health <= 0 )
             {
                 // 플레이어 사망
@@ -58,6 +58,8 @@ public class Player : MonoBehaviour, IHealth, ICombatable
     public float AttackPower { get => attackPower; set => attackPower = value; }
     public float DefencePower { get => defencePower; set => defencePower = value; }
 
+    private bool isFootStepPlay = false;
+
     private void Awake()
     {
         controller = GetComponent<PlayerController>();
@@ -65,6 +67,7 @@ public class Player : MonoBehaviour, IHealth, ICombatable
         anim = GetComponent<HumanAnimation>();
         material_Body = transform.GetChild(1).GetComponent<MeshRenderer>().material;
         weaponSlot = FindAnyObjectByType<WeaponSlot>();
+        soundManager = GetComponentInChildren<SoundManager>();
     }
 
     private void OnEnable()
@@ -72,6 +75,8 @@ public class Player : MonoBehaviour, IHealth, ICombatable
         MaxHealth = 10;
         Health = MaxHealth;
         isImmunite = false;
+
+        if(playerHealthBar != null) playerHealthBar.Init(this);
     }
 
     private void Start()
@@ -84,8 +89,20 @@ public class Player : MonoBehaviour, IHealth, ICombatable
         Input.OnInvenOpen += () => { inventoryUI.ToggleActive(Inventory, ContextType.InventorySlot); }; // 인벤토리 열기
         controller.OnMoveAction += () =>
         {
+            // 애니메이션
             bool isMove = input.MoveVec.sqrMagnitude > 0;
             anim.PlayMove(isMove);
+            
+            if(isMove && !isFootStepPlay)
+            {
+                soundManager.PlaySound(SoundType.footStep);
+                isFootStepPlay = true;
+            }
+            else if(!isMove)
+            {
+                soundManager.StopSound(SoundType.footStep);
+                isFootStepPlay = false;
+            }
         };
 
         input.OnAttack += () =>
@@ -144,6 +161,7 @@ public class Player : MonoBehaviour, IHealth, ICombatable
     public void Attack(IHealth target)
     {
         target.Hit(AttackPower + weaponSlot.WeaponDamage);
+        soundManager.PlaySound(SoundType.Hit);
         input.OnAttack?.Invoke();
     }
 

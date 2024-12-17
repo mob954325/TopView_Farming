@@ -61,6 +61,6 @@ public class EnemyState_Idle : StateBase
     private Vector3 SetRandomNextDestination()
     {
         Vector3 nextPosition = Random.onUnitSphere * 2f;
-        return nextPosition;
+        return nextPosition + this.gameObject.transform.position;
     }
 }
