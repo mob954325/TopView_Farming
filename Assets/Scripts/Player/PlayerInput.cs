@@ -19,6 +19,11 @@ public class PlayerInput : MonoBehaviour
     /// </summary>
     public Action OnAttack;
 
+    /// <summary>
+    /// 아무버튼 누르면 실행되는 델리게이트 (AnyButton)
+    /// </summary>
+    public Action OnCancel;
+
     private void Awake()
     {
         actions = new InputSystem_Actions();
@@ -32,16 +37,18 @@ public class PlayerInput : MonoBehaviour
         actions.Player.Look.performed += OnLookInput;
         actions.Player.Inventory.performed += OnInvenInput;
         actions.Player.Attack.performed += OnAttackInput;
+        actions.Player.Cancel.performed += OnAnyKeyPress;
     }
 
     private void OnDisable()
     {
+        actions.Player.Cancel.performed -= OnAnyKeyPress;
         actions.Player.Attack.performed -= OnAttackInput;
         actions.Player.Inventory.performed -= OnInvenInput;
         actions.Player.Look.performed -= OnLookInput;
         actions.Player.Move.canceled -= OnMoveInput;
         actions.Player.Move.performed -= OnMoveInput;
-        actions.Enable();
+        actions.Disable();
     }
 
     private void OnAttackInput(InputAction.CallbackContext context)
@@ -64,5 +71,10 @@ public class PlayerInput : MonoBehaviour
     {
         Vector2 moveVec = context.ReadValue<Vector2>();
         MoveVec = moveVec;
+    }
+
+    private void OnAnyKeyPress(InputAction.CallbackContext context)
+    {
+        OnCancel?.Invoke();
     }
 }

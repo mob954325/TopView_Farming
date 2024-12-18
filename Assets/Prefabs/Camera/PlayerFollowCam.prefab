@@ -59,7 +59,7 @@ MonoBehaviour:
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
-    FieldOfView: 60.000004
+    FieldOfView: 40
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -176,35 +176,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2352525968856925858, guid: a84e866a9fa96444b942548d6165d681, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.875486
+      value: 0.8968642
       objectReference: {fileID: 0}
     - target: {fileID: 2352525968856925858, guid: a84e866a9fa96444b942548d6165d681, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.48324358
+      value: 0.35870686
       objectReference: {fileID: 0}
     - target: {fileID: 2352525968856925858, guid: a84e866a9fa96444b942548d6165d681, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.09530301
       objectReference: {fileID: 0}
     - target: {fileID: 2352525968856925858, guid: a84e866a9fa96444b942548d6165d681, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0.24058545
       objectReference: {fileID: 0}
     - target: {fileID: 2352525968856925858, guid: a84e866a9fa96444b942548d6165d681, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 90
+      value: 43.573
       objectReference: {fileID: 0}
     - target: {fileID: 2352525968856925858, guid: a84e866a9fa96444b942548d6165d681, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 0.131
       objectReference: {fileID: 0}
     - target: {fileID: 2352525968856925858, guid: a84e866a9fa96444b942548d6165d681, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 30.085
       objectReference: {fileID: 0}
     - target: {fileID: 3970901706801893943, guid: a84e866a9fa96444b942548d6165d681, type: 3}
       propertyPath: m_Name
       value: MiniMapCam
+      objectReference: {fileID: 0}
+    - target: {fileID: 7730879141321411851, guid: a84e866a9fa96444b942548d6165d681, type: 3}
+      propertyPath: orthographic size
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7730879141321411851, guid: a84e866a9fa96444b942548d6165d681, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 97
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

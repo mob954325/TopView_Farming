@@ -295,6 +295,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eachEnemyCount: 3
+  boxData: {fileID: 11400000, guid: 5ef6ca8d867723c4fbf55ff67cc36486, type: 2}
+  isTest: 0
 --- !u!1 &8951590987307299069
 GameObject:
   m_ObjectHideFlags: 0

@@ -38,6 +38,16 @@ public class ItemBox : Product, IInteractable
     {
         // context메뉴가 열리고 
         // 메뉴 내용 초기화
-        contextMenu.OnActive(ContextType.WorldObject, inventory, Mouse.current.position.value);
+        LocalManager manager = FindAnyObjectByType<LocalManager>();
+        float distanceSqr = Vector3.SqrMagnitude(this.gameObject.transform.position - manager.Player.transform.position);
+
+        if(distanceSqr < 2.5f)
+        {
+            contextMenu.OnActive(ContextType.WorldObject, inventory, Mouse.current.position.value);
+        }
+        else
+        {
+            contextMenu.OnDeactive();
+        }
     }
 }

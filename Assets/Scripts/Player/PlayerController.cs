@@ -12,13 +12,14 @@ public class PlayerController : MonoBehaviour, IMoveable
 
     public float rotatePower = 90f;
 
+    public float gravity = 9.71f;
+
     public Action OnMoveAction { get; set; }
 
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
     }
-
     public void OnMove(Vector3 moveDir)
     {
         characterController.Move(Time.deltaTime * speed * moveDir.y * transform.forward);

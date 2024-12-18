@@ -6,8 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Test/GameLogic/Test_00_Input.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/Main/Lobby.unity
+    guid: 75bcb568f07a4a142b24e05083d2e843
+  - enabled: 1
+    path: Assets/Scenes/Main/Main.unity
+    guid: c93254e19f068ab4d84ed9f0c6e01e94
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

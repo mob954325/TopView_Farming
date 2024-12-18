@@ -161,7 +161,11 @@ public class Player : MonoBehaviour, IHealth, ICombatable
     public void Attack(IHealth target)
     {
         target.Hit(AttackPower + weaponSlot.WeaponDamage);
-        soundManager.PlaySound(SoundType.Hit);
+
+        if(target.Health > 0)
+        {
+            soundManager.PlaySound(SoundType.Hit);
+        }
         input.OnAttack?.Invoke();
     }
 

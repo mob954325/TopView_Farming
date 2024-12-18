@@ -211,7 +211,7 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
 
         for(int i = 0; i < count; i++)
         {
-            float rand = UnityEngine.Random.Range(0f, 1f);
+            float rand = UnityEngine.Random.value;
             if(rand <= data.dataTable[i].dropRate)
             {
                 inventory.AddItem(data.dataTable[i].itemData);
@@ -281,10 +281,21 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
 
     public void OnInteract()
     {
-        if(canInteract)
+        LocalManager manager = FindAnyObjectByType<LocalManager>();
+        float distanceSqr = Vector3.SqrMagnitude(this.gameObject.transform.position - manager.Player.transform.position);
+
+        if (distanceSqr < 3f)
         {
-            contextMenu.OnActive(contextType, inventory, Mouse.current.position.value);
+            if (canInteract)
+            {
+                contextMenu.OnActive(contextType, inventory, Mouse.current.position.value);
+            }
         }
+        else
+        {
+            contextMenu.OnDeactive();
+        }
+
     }
 
 #if UNITY_EDITOR

@@ -4,9 +4,8 @@ using UnityEngine.InputSystem;
 public class PlaceableObject : MonoBehaviour
 {
     private bool isPlaced = false;
-    public bool IsPlaced { get => isPlaced; }
 
-    private void OnEnable()
+    private void Start()
     {
         isPlaced = false;
     }

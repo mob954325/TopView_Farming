@@ -81,6 +81,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5183658990332241635, guid: d005e8676489d45418a75000f15d533e, type: 3}
+      propertyPath: capacity
+      value: 32
+      objectReference: {fileID: 0}
     - target: {fileID: 6058625975297165032, guid: d005e8676489d45418a75000f15d533e, type: 3}
       propertyPath: m_Name
       value: EnemyFactory
@@ -146,6 +150,10 @@ PrefabInstance:
     - target: {fileID: 5338353599326849919, guid: 4fd3af06b641edf44ad41aa0645e4433, type: 3}
       propertyPath: m_Name
       value: ItemBoxFactory
+      objectReference: {fileID: 0}
+    - target: {fileID: 5960876250066383137, guid: 4fd3af06b641edf44ad41aa0645e4433, type: 3}
+      propertyPath: capacity
+      value: 32
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

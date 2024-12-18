@@ -1,7 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public enum ContextType
@@ -58,6 +60,14 @@ public class ContextMenuUI : MonoBehaviour
             buttons.Add(child.GetComponent<Button>());
             buttonTexts.Add(buttons[i].GetComponentInChildren<TextMeshProUGUI>());
         }
+
+        player.Input.OnCancel += () =>
+        {
+            if(canvas.alpha > 0f)
+            {
+                OnDeactive();
+            }
+        };
     }
 
     private void SetButton(ContextType type)
@@ -114,6 +124,20 @@ public class ContextMenuUI : MonoBehaviour
 
         SetButton(type);
         SetPosition(pos);
+
+        StartCoroutine(DoNothingProcess());
+    }
+
+    private IEnumerator DoNothingProcess()
+    {
+        float timeElapsed = 0.0f;
+        while(timeElapsed < 10f)
+        {
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        OnDeactive();
     }
 
     /// <summary>

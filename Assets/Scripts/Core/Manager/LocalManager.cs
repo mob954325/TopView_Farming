@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class LocalManager : MonoBehaviour
@@ -15,9 +16,14 @@ public class LocalManager : MonoBehaviour
     public ItemDataManager ItemDataManager { get => itemManager; }
 
     private Factory_Enemy factory_Enemy;
+    private Factory_ItemBox factory_ItemBox;
 
-    private Transform[] enemySpawnpoints;
+    private Transform[] spawnpoints;
+    public Transform[] SpawnPoints { get => spawnpoints; }
     public int eachEnemyCount = 1;
+
+    [Space(10f)]
+    public ItemBoxDropTableSO boxData;
 
 #if UNITY_EDITOR
     public bool isTest = false;
@@ -28,13 +34,15 @@ public class LocalManager : MonoBehaviour
         player = FindAnyObjectByType<Player>();
         itemManager = FindAnyObjectByType<ItemDataManager>();
         factory_Enemy = FindAnyObjectByType<Factory_Enemy>();
+        factory_ItemBox = FindAnyObjectByType<Factory_ItemBox>();
 
-        enemySpawnpoints = transform.GetChild(1).GetComponentsInChildren<Transform>();
+        spawnpoints = transform.GetChild(1).GetComponentsInChildren<Transform>();
     }
 
     private void Start()
     {
         SpawnEnemies();
+        SpawnItemBox();
     }
 
     private void SpawnEnemies()
@@ -43,14 +51,40 @@ public class LocalManager : MonoBehaviour
         if (isTest) return;
 #endif
 
-        for(int i = 1; i < enemySpawnpoints.Length; i++)
+        for(int i = 1; i < spawnpoints.Length; i++)
         {
             for (int count = 0; count < eachEnemyCount; count++)
             {
                 Vector3 randVec = UnityEngine.Random.insideUnitSphere;
-                Vector3 spawnVec = new Vector3(randVec.x + enemySpawnpoints[i].position.x, 0.1f, randVec.z + enemySpawnpoints[i].position.z);
+                Vector3 spawnVec = new Vector3(randVec.x + spawnpoints[i].position.x, 0.1f, randVec.z + spawnpoints[i].position.z);
                 factory_Enemy.SpawnEnemy(spawnVec, Quaternion.identity);
             }
         }
+    }
+
+    public void SpawnItemBox()
+    {
+        for(int i = 1; i < spawnpoints.Length; i++)
+        {
+            Vector3 randVec = UnityEngine.Random.insideUnitSphere * 3f;
+            Vector3 spawnVec = new Vector3(randVec.x + spawnpoints[i].position.x, 0.1f, randVec.z + spawnpoints[i].position.z);
+            factory_ItemBox.SpawnBox(SetItemBoxDrop(boxData), spawnVec, Quaternion.identity);
+        }
+    }
+
+    private List<ItemDataSO> SetItemBoxDrop(ItemBoxDropTableSO data)
+    {
+        List<ItemDataSO> result = new List<ItemDataSO>(data.dataTable.Count);
+
+        for(int i = 0; i < data.dataTable.Count; i++)
+        {
+            float rand = UnityEngine.Random.value;
+            if(rand <= data.dataTable[i].dropRate)
+            {
+                result.Add(data.dataTable[i].itemData);
+            }
+        }
+
+        return result;
     }
 }
