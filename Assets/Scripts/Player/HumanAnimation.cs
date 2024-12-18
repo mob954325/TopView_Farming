@@ -6,6 +6,7 @@ public class HumanAnimation : MonoBehaviour
 
     private int HashToOnMove = Animator.StringToHash("IsMove");
     private int HashToOnAttack = Animator.StringToHash("OnAttack");
+    private int HashToOnDead = Animator.StringToHash("OnDead");
 
     private void Awake()
     {
@@ -20,5 +21,10 @@ public class HumanAnimation : MonoBehaviour
     public void PlayAttack()
     {
         anim.SetTrigger(HashToOnAttack);
+    }
+
+    public void PlayDead()
+    {
+        anim.SetTrigger(HashToOnDead);
     }
 }

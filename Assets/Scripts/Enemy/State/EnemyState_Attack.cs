@@ -72,6 +72,7 @@ public class EnemyState_Attack : StateBase
         // stopMoving
         enemy.Controller.Speed = 0f;
         isAttack = false;
+        StopAllCoroutines();
         attackArea.SetColliderActive(false);
     }
 }

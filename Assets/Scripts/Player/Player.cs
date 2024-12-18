@@ -119,6 +119,7 @@ public class Player : MonoBehaviour, IHealth, ICombatable
     // IHealth ===============================================================
     public void Dead()
     {
+        anim.PlayDead();
         OnDead?.Invoke();
     }
 
