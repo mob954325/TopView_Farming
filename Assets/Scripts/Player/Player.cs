@@ -125,6 +125,8 @@ public class Player : MonoBehaviour, IHealth, ICombatable
 
     public void Hit(float damage)
     {
+        if (Health <= 0) return;
+
         if(!isImmunite)
         {
             Health -= damage;

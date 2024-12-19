@@ -165,6 +165,8 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
     // IHealth ===================================================
     public void Hit(float damage)
     {
+        if (Health <= 0) return;
+
         Health -= damage;
         OnHit?.Invoke();
     }
