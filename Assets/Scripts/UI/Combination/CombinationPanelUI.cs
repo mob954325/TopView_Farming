@@ -1,3 +1,5 @@
+using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,6 +29,8 @@ public class CombinationPanelUI : MonoBehaviour
     private Button cancelButton;
     private Button comfirmButton;
 
+    private TextMeshProUGUI messageText;
+
     private void Awake()
     {
         manager = FindAnyObjectByType<LocalManager>();
@@ -39,6 +43,8 @@ public class CombinationPanelUI : MonoBehaviour
 
         cancelButton = contentPanel.GetChild(2).GetComponent<Button>();
         comfirmButton = contentPanel.GetChild(3).GetComponent<Button>();
+
+        messageText = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
     }
 
     private void Start()
@@ -60,9 +66,28 @@ public class CombinationPanelUI : MonoBehaviour
                 manager.Player.Inventory.AddItem(manager.ItemDataManager.Items[(int)resultCode]);
                 SetDeactive();
             }
+            else
+            {
+                StopAllCoroutines();
+                StartCoroutine(ShowMessageProcess());
+            }
         });
 
+        messageText.text = " ";
         SetDeactive();
+    }
+
+    private IEnumerator ShowMessageProcess()
+    {
+        float timeElpased = 0f;
+
+        while(timeElpased < 2f)
+        {
+            timeElpased += Time.deltaTime;
+            messageText.text = "No Recipe";
+            yield return null;
+        }
+        messageText.text = " ";
     }
 
     public bool SetData(ItemDataSO data, int index)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerController), typeof(PlayerInput), typeof(HumanAnimation))]
 public class Player : MonoBehaviour, IHealth, ICombatable

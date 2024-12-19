@@ -26,8 +26,6 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
     /// </summary>
     public Player Target { get => target; }
 
-    private Collider collider;
-
     public GameObject worldObject => this.gameObject;
     private EnemyController controller;
     /// <summary>
@@ -104,7 +102,6 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
         inventoryUI = FindFirstObjectByType<InventoryUI>();
         contextMenu = FindAnyObjectByType<ContextMenuUI>();
         anim = GetComponent<HumanAnimation>();
-        collider = GetComponent<Collider>();
 
         // controller 초기화
         controller = GetComponent<EnemyController>();
@@ -149,7 +146,7 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
         SetInventory();
 
         CanInteract = false;
-        collider.enabled = true;
+        GetComponent<Collider>().enabled = true;
         State = EnemyState.Idle;        
     }
 
@@ -175,7 +172,6 @@ public class EnemyBase : Product, IHealth, ICombatable, IInteractable
     {
         State = EnemyState.Dead;
         anim.PlayDead();
-        collider.enabled = false;
         OnDead?.Invoke();
     }
 
