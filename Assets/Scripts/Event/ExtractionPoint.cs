@@ -35,7 +35,8 @@ public class ExtractionPoint : MonoBehaviour
 
             if(timer > maxTimer)
             {
-                Debug.Log("탈출 !");
+                manager.onGameEnd?.Invoke();
+                this.gameObject.SetActive(false);
             }
         }
     }

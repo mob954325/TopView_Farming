@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1f7fe409335260429bc75c4210d9257, type: 3}
   m_Name: Item_07_WeaponBar
   m_EditorClassIdentifier: 
-  Icon: {fileID: 21300000, guid: 6c8d36f9a3f5c4a4e936cac54451fcfd, type: 3}
+  Icon: {fileID: 21300000, guid: a58c40e43e2867748b68e5b452ad439a, type: 3}
   type: 1
   code: 7
   objName: RedStick

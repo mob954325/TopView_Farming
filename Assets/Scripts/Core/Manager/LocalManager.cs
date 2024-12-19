@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LocalManager : MonoBehaviour
 {
@@ -21,6 +23,8 @@ public class LocalManager : MonoBehaviour
     private Transform[] spawnpoints;
     public Transform[] SpawnPoints { get => spawnpoints; }
     public int eachEnemyCount = 1;
+
+    public Action onGameEnd;
 
     [Space(10f)]
     public ItemBoxDropTableSO boxData;
@@ -57,7 +61,8 @@ public class LocalManager : MonoBehaviour
             {
                 Vector3 randVec = UnityEngine.Random.insideUnitSphere;
                 Vector3 spawnVec = new Vector3(randVec.x + spawnpoints[i].position.x, 0.1f, randVec.z + spawnpoints[i].position.z);
-                factory_Enemy.SpawnEnemy(spawnVec, Quaternion.identity);
+                EnemyBase enemy = factory_Enemy.SpawnEnemy(spawnVec, Quaternion.identity);
+                onGameEnd += () => { enemy.gameObject.SetActive(false); };
             }
         }
     }
@@ -86,5 +91,15 @@ public class LocalManager : MonoBehaviour
         }
 
         return result;
+    }
+
+    public void ExitScene()
+    {
+        SceneManager.LoadScene("Lobby");
+    }
+
+    public void RestartScene()
+    {
+        SceneManager.LoadScene("Main");
     }
 }

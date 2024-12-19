@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc80f6e9572720445a1cb5c4bdd05732, type: 3}
   m_Name: Item_08_Spike
   m_EditorClassIdentifier: 
-  Icon: {fileID: 21300000, guid: 6c8d36f9a3f5c4a4e936cac54451fcfd, type: 3}
+  Icon: {fileID: 21300000, guid: 3e472abd51cffd24bbc99b47a3a0ec16, type: 3}
   type: 2
   code: 8
   objName: Spike
